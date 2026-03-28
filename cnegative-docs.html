@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cnegative — docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ── Design tokens ── */
+:root {
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Cascadia Code', monospace;
+
+  --text-xs:   0.72rem;
+  --text-sm:   0.83rem;
+  --text-base: 0.9375rem;
+  --text-lg:   1.0625rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.5rem;
+
+  --sidebar-w: 248px;
+  --topbar-h:  52px;
+  --content-max: 740px;
+
+  /* dark theme (default) */
+  --bg:          #0c0c0e;
+  --surface:     #121215;
+  --surface2:    #1a1a1f;
+  --surface3:    #222228;
+  --border:      rgba(255,255,255,0.07);
+  --border2:     rgba(255,255,255,0.12);
+  --text:        #e8e8ec;
+  --text-muted:  #8a8a96;
+  --text-faint:  #55555f;
+  --accent:      #e8a020;
+  --accent-dim:  rgba(232,160,32,0.10);
+  --accent-soft: rgba(232,160,32,0.18);
+  --green:       #3fb97a;
+  --green-dim:   rgba(63,185,122,0.10);
+  --blue:        #4fa3e0;
+  --blue-dim:    rgba(79,163,224,0.10);
+  --red:         #e05252;
+  --red-dim:     rgba(224,82,82,0.10);
+  --code-bg:     #0a0a0c;
+
+  /* syntax */
+  --syn-kw:   #e08060;
+  --syn-fn:   #c8a0f0;
+  --syn-str:  #80c8a0;
+  --syn-num:  #60b0e8;
+  --syn-cm:   #5a5a6a;
+  --syn-ty:   #e8c060;
+  --syn-op:   #a0c8e8;
+  --syn-pun:  #808090;
+}
+
+[data-theme="light"] {
+  --bg:          #fafaf8;
+  --surface:     #ffffff;
+  --surface2:    #f4f4f0;
+  --surface3:    #eaeae4;
+  --border:      rgba(0,0,0,0.08);
+  --border2:     rgba(0,0,0,0.14);
+  --text:        #1a1a22;
+  --text-muted:  #666672;
+  --text-faint:  #aaaabc;
+  --accent:      #b87010;
+  --accent-dim:  rgba(184,112,16,0.08);
+  --accent-soft: rgba(184,112,16,0.15);
+  --code-bg:     #f0f0ec;
+  --syn-kw:   #c04820;
+  --syn-fn:   #7040b0;
+  --syn-str:  #206840;
+  --syn-num:  #1860a0;
+  --syn-cm:   #909090;
+  --syn-ty:   #907020;
+  --syn-op:   #3070a0;
+  --syn-pun:  #666666;
+}
+
+/* ── Base ── */
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--text-base);
+  line-height: 1.75;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Topbar ── */
+.topbar {
+  height: var(--topbar-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 14px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.logo-mark {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #0c0c0e;
+  padding: 3px 7px;
+  letter-spacing: -0.02em;
+  border-radius: 3px;
+}
+
+.logo-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.version-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+.topbar-search {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 6px 11px;
+  color: var(--text-faint);
+  font-size: var(--text-sm);
+  cursor: text;
+  min-width: 180px;
+  transition: border-color .15s;
+}
+.topbar-search:hover { border-color: var(--border2); }
+.topbar-search svg { flex-shrink: 0; }
+.search-kbd {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--text-faint);
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 14px;
+}
+.topbar-nav a {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all .12s;
+}
+.topbar-nav a:hover { color: var(--text); background: var(--surface2); }
+.topbar-nav a.active { color: var(--text); }
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: 5px;
+  color: var(--text-muted);
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  transition: all .12s;
+  margin-left: 6px;
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--accent); }
+
+/* ── Layout ── */
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 20px 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.nav-section { margin-bottom: 6px; }
+
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 10px 18px 5px;
+  font-family: var(--font-mono);
+}
+
+.nav-link {
+  display: block;
+  padding: 5px 18px 5px 16px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all .1s;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.03); text-decoration: none; }
+.nav-link.active {
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+
+.nav-link.sub {
+  padding-left: 30px;
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+}
+.nav-link.sub:hover { color: var(--text-muted); }
+.nav-link.sub.active { color: var(--accent); }
+
+/* ── Content area ── */
+.content-wrap {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  justify-content: flex-start;
+}
+.content-wrap::-webkit-scrollbar { width: 4px; }
+.content-wrap::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.content {
+  max-width: var(--content-max);
+  width: 100%;
+  padding: 36px 48px 64px;
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.breadcrumb a { color: var(--text-faint); text-decoration: none; }
+.breadcrumb a:hover { color: var(--text-muted); }
+.breadcrumb span { opacity: 0.4; }
+
+/* ── Page header ── */
+.page-header { margin-bottom: 26px; }
+
+.page-title {
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  font-family: var(--font-mono);
+}
+
+.page-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+}
+.page-meta .sep { opacity: 0.3; }
+.page-meta a { color: var(--text-faint); font-size: var(--text-xs); }
+.page-meta a:hover { color: var(--accent); }
+
+.page-lead {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 30px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Page sections ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Headings ── */
+h2 {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-family: var(--font-mono);
+  padding-top: 36px;
+  margin-top: 36px;
+  margin-bottom: 14px;
+  border-top: 1px solid var(--border);
+  line-height: 1.3;
+}
+h2:first-of-type { padding-top: 0; margin-top: 0; border-top: none; }
+
+h3 {
+  font-size: var(--text-base);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 24px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+p { margin-bottom: 14px; color: var(--text); line-height: 1.8; }
+p:last-child { margin-bottom: 0; }
+
+ul, ol { margin: 10px 0 14px 20px; }
+li { margin-bottom: 5px; line-height: 1.7; color: var(--text); }
+
+/* ── Inline code ── */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--surface3);
+  border: 1px solid var(--border);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--accent);
+}
+
+/* ── Code blocks ── */
+.code-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+
+.lang-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-faint);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.copy-btn {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text-faint);
+  font-size: 11px;
+  font-family: var(--font-sans);
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .12s;
+}
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+pre {
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+pre::-webkit-scrollbar { height: 4px; }
+pre::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.hl { background: rgba(232,160,32,0.07); display: block; margin: 0 -18px; padding: 0 18px; }
+
+.kw  { color: var(--syn-kw); }
+.fn  { color: var(--syn-fn); }
+.str { color: var(--syn-str); }
+.num { color: var(--syn-num); }
+.cm  { color: var(--syn-cm); font-style: italic; }
+.ty  { color: var(--syn-ty); }
+.op  { color: var(--syn-op); }
+.pun { color: var(--syn-pun); }
+
+/* ── Callouts ── */
+.callout {
+  border-radius: 5px;
+  padding: 13px 15px;
+  margin: 18px 0;
+  display: flex;
+  gap: 11px;
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  border-left: 3px solid;
+}
+.callout-icon { flex-shrink: 0; margin-top: 1px; font-size: 13px; }
+.callout-body { flex: 1; }
+.callout-title { font-weight: 600; margin-bottom: 2px; font-size: var(--text-sm); font-family: var(--font-mono); }
+
+.callout.note  { background: var(--blue-dim);  border-color: var(--blue);  }
+.callout.note .callout-title  { color: var(--blue); }
+.callout.note p { color: var(--text-muted); margin: 0; }
+
+.callout.warn  { background: var(--accent-dim); border-color: var(--accent); }
+.callout.warn .callout-title  { color: var(--accent); }
+.callout.warn p { color: var(--text-muted); margin: 0; }
+
+.callout.tip   { background: var(--green-dim);  border-color: var(--green);  }
+.callout.tip .callout-title   { color: var(--green); }
+.callout.tip p { color: var(--text-muted); margin: 0; }
+
+.callout.danger { background: var(--red-dim);  border-color: var(--red);    }
+.callout.danger .callout-title { color: var(--red); }
+.callout.danger p { color: var(--text-muted); margin: 0; }
+
+/* ── Tables ── */
+.table-wrap { overflow-x: auto; margin: 16px 0; border-radius: 5px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+th {
+  text-align: left;
+  padding: 9px 14px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+
+/* ── Error code table ── */
+.error-code { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--accent); font-weight: 600; }
+
+/* ── Pipeline ── */
+.pipeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 20px 0;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.pipeline-step {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  padding: 6px 12px;
+  color: var(--text-muted);
+}
+.pipeline-step:first-child { border-radius: 4px 0 0 4px; }
+.pipeline-step:last-child  { border-radius: 0 4px 4px 0; }
+.pipeline-arrow {
+  color: var(--accent);
+  font-size: 12px;
+  padding: 0 2px;
+  background: var(--surface2);
+  border-top: 1px solid var(--border2);
+  border-bottom: 1px solid var(--border2);
+  padding: 6px 4px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+}
+
+/* ── Prev/Next ── */
+.page-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+.page-nav-btn {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 13px 16px;
+  cursor: pointer;
+  color: var(--text);
+  text-decoration: none;
+  display: block;
+  transition: border-color .12s;
+}
+.page-nav-btn:hover { border-color: var(--accent); text-decoration: none; }
+.page-nav-btn.next { text-align: right; }
+.page-nav-label { font-size: var(--text-xs); color: var(--text-faint); margin-bottom: 3px; font-family: var(--font-mono); }
+.page-nav-title { font-size: var(--text-sm); font-weight: 500; }
+
+/* ── Platform badges ── */
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+.badge.linux  { background: var(--green-dim); color: var(--green); border: 1px solid rgba(63,185,122,0.2); }
+.badge.mac    { background: var(--blue-dim);  color: var(--blue);  border: 1px solid rgba(79,163,224,0.2); }
+.badge.win    { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(232,160,32,0.2); }
+.badge.all    { background: var(--surface2);  color: var(--text-muted); border: 1px solid var(--border2); }
+
+/* ── Responsive ── */
+.menu-btn { display: none; background: none; border: 1px solid var(--border2); border-radius: 4px; padding: 5px 8px; color: var(--text-muted); cursor: pointer; }
+
+@media (max-width: 760px) {
+  .menu-btn { display: flex; }
+  .sidebar { position: fixed; top: var(--topbar-h); left: 0; bottom: 0; z-index: 99; transform: translateX(-100%); transition: transform .2s; }
+  .sidebar.open { transform: translateX(0); }
+  .content { padding: 24px 20px 48px; }
+  .topbar-nav { display: none; }
+  .topbar-search { min-width: 120px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <button class="menu-btn" onclick="toggleSidebar()" aria-label="Menu">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 2.5h12M1 7h12M1 11.5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </button>
+
+  <a class="logo" href="#" onclick="navigate('overview'); return false;">
+    <span class="logo-mark">cn</span>
+    <span class="logo-name">cnegative</span>
+  </a>
+  <span class="version-badge">v0.1.0-dev</span>
+
+  <div class="topbar-search" onclick="this.querySelector('input').focus()">
+    <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/><path d="m10.5 10.5 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <input type="text" placeholder="Search docs..." style="background:none;border:none;outline:none;color:var(--text-faint);font-family:var(--font-sans);font-size:var(--text-sm);width:100%;">
+    <span class="search-kbd">⌘K</span>
+  </div>
+
+  <nav class="topbar-nav">
+    <a href="#" class="active" onclick="navigate('overview'); return false;">Docs</a>
+    <a href="https://github.com/cnegative/cnegative" target="_blank">GitHub ↗</a>
+  </nav>
+
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+    <svg id="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg id="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" style="display:none"><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="nav-section">
+      <div class="nav-section-label">getting started</div>
+      <a class="nav-link active" onclick="navigate('overview')">Overview</a>
+      <a class="nav-link" onclick="navigate('install')">Installation</a>
+      <a class="nav-link" onclick="navigate('quickstart')">Quick Start</a>
+      <a class="nav-link" onclick="navigate('build')">Build &amp; Run</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">language</div>
+      <a class="nav-link" onclick="navigate('spec')">Language Spec</a>
+      <a class="nav-link sub" onclick="navigate('spec')">Functions</a>
+      <a class="nav-link sub" onclick="navigate('spec')">Variables</a>
+      <a class="nav-link sub" onclick="navigate('spec')">Types</a>
+      <a class="nav-link sub" onclick="navigate('spec')">Control Flow</a>
+      <a class="nav-link sub" onclick="navigate('spec')">Modules</a>
+      <a class="nav-link sub" onclick="navigate('spec')">Pointers &amp; Results</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">compiler</div>
+      <a class="nav-link" onclick="navigate('pipeline')">Pipeline</a>
+      <a class="nav-link" onclick="navigate('typed-ir')">Typed IR</a>
+      <a class="nav-link" onclick="navigate('llvm')">LLVM Backend</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label">reference</div>
+      <a class="nav-link" onclick="navigate('errors')">Error Codes</a>
+      <a class="nav-link" onclick="navigate('rules')">Project Rules</a>
+      <a class="nav-link" onclick="navigate('roadmap')">Roadmap</a>
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="content-wrap" id="content-wrap">
+    <div class="content">
+
+      <!-- ── PAGE: Overview ── -->
+      <div class="page active" id="page-overview">
+        <div class="breadcrumb">
+          <a href="#">cnegative</a> <span>/</span> overview
+        </div>
+        <div class="page-header">
+          <div class="page-title">cnegative</div>
+          <div class="page-meta">
+            <span>~3 min read</span>
+            <span class="sep">·</span>
+            <span>v0.1.0-dev</span>
+            <span class="sep">·</span>
+            <a href="https://github.com/cnegative/docs" target="_blank">Edit on GitHub ↗</a>
+          </div>
+        </div>
+        <p class="page-lead">A minimal, hackable systems language for learning explicit low-level programming. Designed as a stepping stone before C, C++, or lower-level systems work.</p>
+
+        <h2>What is cnegative?</h2>
+        <p><code>cnegative</code> keeps manual control, reduces hidden behavior, and prefers words over symbolic shortcuts when that improves clarity. It compiles to native code through LLVM.</p>
+        <p>The compiler ships today with structured diagnostics, a typed IR stage, LLVM IR emission, and object + binary linking through the host Clang toolchain.</p>
+
+        <div class="callout note">
+          <span class="callout-icon">ℹ</span>
+          <div class="callout-body">
+            <div class="callout-title">current status</div>
+            <p>This is <strong>v0.1.0-dev</strong>. The language and compiler are under active development. The surface is intentionally small.</p>
+          </div>
+        </div>
+
+        <h2>Core rules at a glance</h2>
+        <ul>
+          <li>Semicolons required for import declarations, simple statements, and struct fields.</li>
+          <li>Non-void functions must use explicit <code>return</code> on every path.</li>
+          <li>Conditions must be actual <code>bool</code> values — no implicit integer truthiness.</li>
+          <li>Visibility is explicit: <code>pfn</code> and <code>pstruct</code> for public exports.</li>
+        </ul>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠</span>
+          <div class="callout-body">
+            <div class="callout-title">no implicit truthiness</div>
+            <p><code>if x {}</code> is rejected when <code>x</code> is an <code>int</code>. Write <code>if x &gt; 0 {}</code> instead.</p>
+          </div>
+        </div>
+
+        <h2>Quick example</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="cm">// hello.cneg</span>
+<span class="kw">fn</span><span class="pun">:</span><span class="ty">void</span> <span class="fn">main</span><span class="pun">() {</span>
+<span class="hl">    <span class="kw">let</span> name<span class="pun">:</span><span class="ty">str</span> <span class="op">=</span> <span class="fn">input</span><span class="pun">();</span></span>
+    <span class="fn">print</span><span class="pun">(</span><span class="str">"hello, "</span><span class="pun">);</span>
+    <span class="fn">print</span><span class="pun">(</span>name<span class="pun">);</span>
+    <span class="kw">free</span> name<span class="pun">;</span>
+<span class="pun">}</span></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="pun">$</span> cnegc build hello.cneg build/hello
+<span class="pun">$</span> ./build/hello
+<span class="str">alice</span>
+hello, alice</pre>
+        </div>
+
+        <h2>Platform support</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Feature</th><th>Linux x86_64</th><th>macOS arm64</th><th>Windows x86_64</th></tr></thead>
+            <tbody>
+              <tr><td>Compiler (C)</td><td><span class="badge linux">YES</span></td><td><span class="badge mac">YES</span></td><td><span class="badge win">YES</span></td></tr>
+              <tr><td>LLVM path</td><td><span class="badge linux">YES</span></td><td><span class="badge mac">YES</span></td><td><span class="badge win">YES</span></td></tr>
+              <tr><td>Lexer hot-path ASM</td><td><span class="badge linux">YES</span></td><td><span class="badge mac">YES</span></td><td>fallback C</td></tr>
+              <tr><td>Prebuilt release</td><td><span class="badge linux">YES</span></td><td><span class="badge mac">YES</span></td><td><span class="badge win">YES</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="page-nav">
+          <div></div>
+          <a class="page-nav-btn next" href="#" onclick="navigate('install'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Installation</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Install ── -->
+      <div class="page" id="page-install">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> installation</div>
+        <div class="page-header">
+          <div class="page-title">Installation</div>
+          <div class="page-meta"><span>~4 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative/releases" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">Install the prebuilt <code>cnegc</code> binary from GitHub Releases. No build tools required for checking and IR dumping. Native output needs Clang.</p>
+
+        <h2>Download</h2>
+        <p>Go to <a href="https://github.com/cnegative/cnegative/releases" target="_blank">github.com/cnegative/cnegative/releases ↗</a> and pick the archive for your platform:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Platform</th><th>Archive</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge linux">Linux</span></td><td><code>cnegc-&lt;tag&gt;-linux-x86_64.zip</code></td></tr>
+              <tr><td><span class="badge mac">macOS</span></td><td><code>cnegc-&lt;tag&gt;-macos-arm64.zip</code></td></tr>
+              <tr><td><span class="badge win">Windows</span></td><td><code>cnegc-&lt;tag&gt;-windows-x86_64.zip</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Linux &amp; macOS</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>unzip cnegc-v0.1.0-dev-linux-x86_64.zip
+mkdir -p <span class="str">"$HOME/.local/bin"</span>
+cp release/cnegc/cnegc <span class="str">"$HOME/.local/bin/"</span>
+chmod +x <span class="str">"$HOME/.local/bin/cnegc"</span></pre>
+        </div>
+        <p>If <code>~/.local/bin</code> isn't on your <code>PATH</code>, add this to your shell config:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="kw">export</span> <span class="ty">PATH</span><span class="op">=</span><span class="str">"$HOME/.local/bin:$PATH"</span></pre>
+        </div>
+
+        <h2>Windows</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">powershell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="cm"># Extract to a stable folder, e.g. C:\tools\cnegc\</span>
+<span class="cm"># Add that folder to your user PATH</span>
+cnegc.exe  <span class="cm"># verify it works</span></pre>
+        </div>
+
+        <h2>What's in the release</h2>
+        <ul>
+          <li><code>cnegc</code> / <code>cnegc.exe</code></li>
+          <li><code>LICENSE</code>, <code>README.md</code></li>
+          <li><code>docs/how-to-run-and-build.md</code></li>
+        </ul>
+
+        <div class="callout note">
+          <span class="callout-icon">ℹ</span>
+          <div class="callout-body">
+            <div class="callout-title">native output requires clang</div>
+            <p><code>check</code>, <code>ir</code>, and <code>llvm-ir</code> need only <code>cnegc</code>. To emit objects or link binaries, you also need <code>clang-18</code> or <code>clang</code> on your <code>PATH</code>.</p>
+          </div>
+        </div>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('overview'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Overview</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('quickstart'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Quick Start</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Quick Start ── -->
+      <div class="page" id="page-quickstart">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> quick start</div>
+        <div class="page-header">
+          <div class="page-title">Quick Start</div>
+          <div class="page-meta"><span>~5 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">Write, check, and run your first <code>cnegative</code> program from scratch.</p>
+
+        <h2>Your first function</h2>
+        <p>Create <code>add.cneg</code>:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="kw">fn</span><span class="pun">:</span><span class="ty">int</span> <span class="fn">add</span><span class="pun">(</span>a<span class="pun">:</span><span class="ty">int</span><span class="pun">,</span> b<span class="pun">:</span><span class="ty">int</span><span class="pun">) {</span>
+    <span class="kw">return</span> a <span class="op">+</span> b<span class="pun">;</span>
+<span class="pun">}</span>
+
+<span class="kw">fn</span><span class="pun">:</span><span class="ty">int</span> <span class="fn">main</span><span class="pun">() {</span>
+<span class="hl">    <span class="kw">let</span> result<span class="pun">:</span><span class="ty">int</span> <span class="op">=</span> <span class="fn">add</span><span class="pun">(</span><span class="num">2</span><span class="pun">,</span> <span class="num">3</span><span class="pun">);</span></span>
+    <span class="fn">print</span><span class="pun">(</span>result<span class="pun">);</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="pun">;</span>
+<span class="pun">}</span></pre>
+        </div>
+        <p>Check it (no Clang needed):</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>cnegc check add.cneg</pre>
+        </div>
+        <p>Build and run:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>cnegc build add.cneg build/add
+./build/add
+<span class="num">5</span></pre>
+        </div>
+
+        <h2>Using result types</h2>
+        <p>Fallible operations return <code>result T</code>. The <code>.value</code> field is only accessible after a guard:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="kw">fn</span><span class="pun">:</span><span class="ty">result int</span> <span class="fn">divide</span><span class="pun">(</span>a<span class="pun">:</span><span class="ty">int</span><span class="pun">,</span> b<span class="pun">:</span><span class="ty">int</span><span class="pun">) {</span>
+    <span class="kw">if</span> b <span class="op">==</span> <span class="num">0</span> <span class="pun">{</span>
+        <span class="kw">return</span> <span class="kw">err</span><span class="pun">;</span>
+    <span class="pun">}</span>
+    <span class="kw">return</span> <span class="kw">ok</span> a <span class="op">/</span> b<span class="pun">;</span>
+<span class="pun">}</span>
+
+<span class="kw">fn</span><span class="pun">:</span><span class="ty">int</span> <span class="fn">main</span><span class="pun">() {</span>
+    <span class="kw">let</span> r<span class="pun">:</span><span class="ty">result int</span> <span class="op">=</span> <span class="fn">divide</span><span class="pun">(</span><span class="num">10</span><span class="pun">,</span> <span class="num">2</span><span class="pun">);</span>
+<span class="hl">    <span class="kw">if</span> r<span class="pun">.</span>ok <span class="pun">{</span></span>
+<span class="hl">        <span class="fn">print</span><span class="pun">(</span>r<span class="pun">.</span>value<span class="pun">);</span>  <span class="cm">// only valid inside this guard</span></span>
+<span class="hl">    <span class="pun">}</span></span>
+    <span class="kw">return</span> <span class="num">0</span><span class="pun">;</span>
+<span class="pun">}</span></pre>
+        </div>
+
+        <div class="callout danger">
+          <span class="callout-icon">✕</span>
+          <div class="callout-body">
+            <div class="callout-title">unguarded .value is rejected</div>
+            <p>Accessing <code>r.value</code> without a preceding <code>if r.ok</code> guard is a compile-time error <code>E3024</code>.</p>
+          </div>
+        </div>
+
+        <h2>Importing modules</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="cm">// shapes.cneg</span>
+<span class="kw">pstruct</span> <span class="ty">Point</span> <span class="pun">{</span>
+    x<span class="pun">:</span><span class="ty">int</span><span class="pun">;</span>
+    y<span class="pun">:</span><span class="ty">int</span><span class="pun">;</span>
+<span class="pun">}</span>
+
+<span class="kw">pfn</span><span class="pun">:</span><span class="ty">Point</span> <span class="fn">make_point</span><span class="pun">(</span>x<span class="pun">:</span><span class="ty">int</span><span class="pun">,</span> y<span class="pun">:</span><span class="ty">int</span><span class="pun">) {</span>
+    <span class="kw">return</span> <span class="ty">Point</span> <span class="pun">{</span> x<span class="pun">:</span> x<span class="pun">,</span> y<span class="pun">:</span> y <span class="pun">};</span>
+<span class="pun">}</span></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="cm">// main.cneg</span>
+<span class="kw">import</span> shapes <span class="kw">as</span> s<span class="pun">;</span>
+
+<span class="kw">fn</span><span class="pun">:</span><span class="ty">int</span> <span class="fn">main</span><span class="pun">() {</span>
+    <span class="kw">let</span> p<span class="pun">:</span><span class="ty">s.Point</span> <span class="op">=</span> s<span class="pun">.</span><span class="fn">make_point</span><span class="pun">(</span><span class="num">3</span><span class="pun">,</span> <span class="num">4</span><span class="pun">);</span>
+    <span class="fn">print</span><span class="pun">(</span>p<span class="pun">.</span>x<span class="pun">);</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="pun">;</span>
+<span class="pun">}</span></pre>
+        </div>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('install'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Installation</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('build'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Build &amp; Run</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Build ── -->
+      <div class="page" id="page-build">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> build &amp; run</div>
+        <div class="page-header">
+          <div class="page-title">Build &amp; Run</div>
+          <div class="page-meta"><span>~6 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">Build <code>cnegc</code> from source or use an existing binary. Covers prerequisites, build systems, all compiler commands, and the lexer benchmark.</p>
+
+        <h2>Using a prebuilt binary</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Command</th><th>Needs Clang?</th><th>Output</th></tr></thead>
+            <tbody>
+              <tr><td><code>cnegc check &lt;file&gt;</code></td><td>No</td><td>diagnostics only</td></tr>
+              <tr><td><code>cnegc ir &lt;file&gt;</code></td><td>No</td><td>typed IR text</td></tr>
+              <tr><td><code>cnegc llvm-ir &lt;file&gt;</code></td><td>No</td><td>LLVM IR text</td></tr>
+              <tr><td><code>cnegc obj &lt;file&gt; [out]</code></td><td>Yes</td><td><code>.o</code> object file</td></tr>
+              <tr><td><code>cnegc build &lt;file&gt; [out]</code></td><td>Yes</td><td>linked binary</td></tr>
+              <tr><td><code>cnegc bench-lexer &lt;file&gt; N</code></td><td>No</td><td>timing output</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Build from source</h2>
+        <h3>Prerequisites</h3>
+        <ul>
+          <li>A C compiler available as <code>cc</code> (for Make) or any C compiler (for CMake)</li>
+          <li><code>make</code> or CMake 3.20+</li>
+          <li><code>clang-18</code> or <code>clang</code> in <code>PATH</code> for the full test suite</li>
+          <li><code>bash</code> for <code>make test</code></li>
+        </ul>
+
+        <h3>With make</h3>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>make          <span class="cm"># produces build/cnegc</span>
+make test     <span class="cm"># runs the full test suite</span></pre>
+        </div>
+
+        <h3>With CMake</h3>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>cmake -S . -B out
+cmake --build out   <span class="cm"># produces out/build/cnegc</span>
+ctest --test-dir out --output-on-failure</pre>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-icon">✦</span>
+          <div class="callout-body">
+            <div class="callout-title">llvm-as is optional</div>
+            <p>Smoke tests use <code>llvm-as-18</code> or <code>llvm-as</code> when available, and fall back to <code>clang -c -x ir</code> otherwise.</p>
+          </div>
+        </div>
+
+        <h2>Project rule: line cap</h2>
+        <p>No source file may exceed 3 000 lines. Run <code>make check-lines</code> to verify before committing.</p>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('quickstart'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Quick Start</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('spec'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Language Spec</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Spec ── -->
+      <div class="page" id="page-spec">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> language spec</div>
+        <div class="page-header">
+          <div class="page-title">Language Spec</div>
+          <div class="page-meta"><span>~10 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">Complete syntax and semantics reference. <code>cnegative</code> is explicit, readable, and low-level — manual control with reduced hidden behavior.</p>
+
+        <h2>Functions</h2>
+        <p>Return type comes after the colon in <code>fn:type</code>. Private by default; use <code>pfn</code> to export.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="kw">fn</span><span class="pun">:</span><span class="ty">int</span> <span class="fn">main</span><span class="pun">() {</span>
+    <span class="kw">return</span> <span class="num">0</span><span class="pun">;</span>
+<span class="pun">}</span>
+
+<span class="kw">pfn</span><span class="pun">:</span><span class="ty">int</span> <span class="fn">add</span><span class="pun">(</span>a<span class="pun">:</span><span class="ty">int</span><span class="pun">,</span> b<span class="pun">:</span><span class="ty">int</span><span class="pun">) {</span>
+    <span class="kw">return</span> a <span class="op">+</span> b<span class="pun">;</span>
+<span class="pun">}</span></pre>
+        </div>
+
+        <h2>Variables</h2>
+        <p>Immutable by default. Add <code>mut</code> to allow reassignment. Explicit type annotation required.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="kw">let</span> x<span class="pun">:</span><span class="ty">int</span> <span class="op">=</span> <span class="num">10</span><span class="pun">;</span>
+<span class="kw">let</span> <span class="kw">mut</span> y<span class="pun">:</span><span class="ty">int</span> <span class="op">=</span> <span class="num">20</span><span class="pun">;</span>
+y <span class="op">=</span> <span class="num">30</span><span class="pun">;</span>  <span class="cm">// ok — y is mut</span></pre>
+        </div>
+
+        <h2>Primitive types</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>int</code></td><td>64-bit signed integer</td></tr>
+              <tr><td><code>bool</code></td><td>Boolean (<code>true</code> / <code>false</code>)</td></tr>
+              <tr><td><code>str</code></td><td>UTF-8 string</td></tr>
+              <tr><td><code>void</code></td><td>No return value</td></tr>
+              <tr><td><code>ptr T</code></td><td>Pointer to T</td></tr>
+              <tr><td><code>result T</code></td><td>Fallible value (ok or err)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Control flow</h2>
+        <p>Conditions must be <code>bool</code>. No implicit integer truthiness.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="cm">// if / else</span>
+<span class="kw">if</span> x <span class="op">&gt;</span> <span class="num">5</span> <span class="pun">{</span>
+    <span class="fn">print</span><span class="pun">(</span>x<span class="pun">);</span>
+<span class="pun">}</span>
+
+<span class="cm">// while</span>
+<span class="kw">while</span> x <span class="op">&lt;</span> <span class="num">10</span> <span class="pun">{</span>
+    x <span class="op">=</span> x <span class="op">+</span> <span class="num">1</span><span class="pun">;</span>
+<span class="pun">}</span>
+
+<span class="cm">// range for</span>
+<span class="kw">for</span> i<span class="pun">:</span><span class="ty">int</span> <span class="kw">in</span> <span class="num">0</span><span class="pun">..</span><span class="num">10</span> <span class="pun">{</span>
+    <span class="fn">print</span><span class="pun">(</span>i<span class="pun">);</span>
+<span class="pun">}</span>
+
+<span class="cm">// infinite loop</span>
+<span class="kw">loop</span> <span class="pun">{</span>
+<span class="pun">}</span></pre>
+        </div>
+
+        <h2>Structs</h2>
+        <p>Use <code>pstruct</code> to export. Fields end with <code>;</code>.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="kw">pstruct</span> <span class="ty">Point</span> <span class="pun">{</span>
+    x<span class="pun">:</span><span class="ty">int</span><span class="pun">;</span>
+    y<span class="pun">:</span><span class="ty">int</span><span class="pun">;</span>
+<span class="pun">}</span>
+
+<span class="kw">fn</span><span class="pun">:</span><span class="ty">int</span> <span class="fn">main</span><span class="pun">() {</span>
+    <span class="kw">let</span> p<span class="pun">:</span><span class="ty">Point</span> <span class="op">=</span> <span class="ty">Point</span> <span class="pun">{</span> x<span class="pun">:</span> <span class="num">1</span><span class="pun">,</span> y<span class="pun">:</span> <span class="num">2</span> <span class="pun">};</span>
+    <span class="kw">return</span> p<span class="pun">.</span>x<span class="pun">;</span>
+<span class="pun">}</span></pre>
+        </div>
+
+        <h2>Pointers</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">cneg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><span class="kw">let</span> <span class="kw">mut</span> x<span class="pun">:</span><span class="ty">int</span> <span class="op">=</span> <span class="num">10</span><span class="pun">;</span>
+<span class="kw">let</span> p<span class="pun">:</span><span class="ty">ptr int</span> <span class="op">=</span> <span class="kw">addr</span> x<span class="pun">;</span>
+p<span class="pun">.</span>value <span class="op">=</span> <span class="num">11</span><span class="pun">;</span>
+
+<span class="kw">let</span> heap<span class="pun">:</span><span class="ty">ptr int</span> <span class="op">=</span> <span class="kw">alloc</span> <span class="ty">int</span><span class="pun">;</span>
+heap<span class="pun">.</span>value <span class="op">=</span> <span class="num">42</span><span class="pun">;</span>
+<span class="kw">free</span> heap<span class="pun">;</span></pre>
+        </div>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('build'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Build &amp; Run</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('pipeline'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Compiler Pipeline</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Pipeline ── -->
+      <div class="page" id="page-pipeline">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> compiler / pipeline</div>
+        <div class="page-header">
+          <div class="page-title">Compiler Pipeline</div>
+          <div class="page-meta"><span>~3 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">Source goes through a multi-stage pipeline. Each stage can be inspected independently with the CLI.</p>
+
+        <h2>Stages</h2>
+        <div class="pipeline">
+          <span class="pipeline-step">Source</span><span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Lexer</span><span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Parser</span><span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">AST</span><span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Sema</span><span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Typed IR</span><span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">LLVM IR</span><span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Object</span><span class="pipeline-arrow">→</span>
+          <span class="pipeline-step">Binary</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Stage</th><th>CLI flag</th><th>Source dir</th></tr></thead>
+            <tbody>
+              <tr><td>Lexer</td><td>—</td><td><code>src/lex/</code></td></tr>
+              <tr><td>Parser + AST</td><td>—</td><td><code>src/parse/</code></td></tr>
+              <tr><td>Semantic analysis</td><td><code>check</code></td><td><code>src/sema/</code></td></tr>
+              <tr><td>Typed IR</td><td><code>ir</code></td><td><code>src/sema/</code></td></tr>
+              <tr><td>LLVM IR</td><td><code>llvm-ir</code></td><td>backend</td></tr>
+              <tr><td>Object file</td><td><code>obj</code></td><td>via clang</td></tr>
+              <tr><td>Binary</td><td><code>build</code></td><td>via clang</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Directory layout</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">text</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>include/cnegative/   <span class="cm">— public compiler headers</span>
+src/support/         <span class="cm">— memory, source, diagnostics</span>
+src/lex/             <span class="cm">— token and lexer logic</span>
+src/parse/           <span class="cm">— AST and parser</span>
+src/sema/            <span class="cm">— semantic checking</span>
+src/cli/             <span class="cm">— command entry point</span>
+src/asm/             <span class="cm">— profiled hot-path assembly</span>
+cmake/               <span class="cm">— build and test scripts</span>
+.github/workflows/   <span class="cm">— CI workflows</span></pre>
+        </div>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('spec'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Language Spec</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('typed-ir'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Typed IR</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Typed IR ── -->
+      <div class="page" id="page-typed-ir">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> compiler / typed ir</div>
+        <div class="page-header">
+          <div class="page-title">Typed IR</div>
+          <div class="page-meta"><span>~3 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">After semantic analysis, checked source is lowered to a structured Typed IR before any LLVM work begins.</p>
+
+        <h2>Properties</h2>
+        <ul>
+          <li>Independent IR node types — not reusing the parser AST.</li>
+          <li>Canonical module-qualified function and struct names.</li>
+          <li>Explicit return statements preserved from source.</li>
+          <li>Structured control flow preserved for <code>if</code>, <code>while</code>, <code>loop</code>, and range <code>for</code>.</li>
+          <li>No SSA, basic blocks, or LLVM-specific details at this stage.</li>
+        </ul>
+
+        <h2>Dump the IR</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>cnegc ir examples/valid_imported_structs.cneg</pre>
+        </div>
+
+        <h2>Example output</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">text</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>module valid_imported_structs (...) {
+    fn valid_imported_structs.main() -> int {
+        let p:shapes.Point = shapes.make_point(3, 4);
+        return w.point.y;
+    }
+}</pre>
+        </div>
+
+        <div class="callout note">
+          <span class="callout-icon">ℹ</span>
+          <div class="callout-body">
+            <div class="callout-title">purpose of this stage</div>
+            <p>Typed IR stabilizes typing and symbol resolution before control-flow lowering and LLVM emission. It is a checkpoint, not an optimization stage.</p>
+          </div>
+        </div>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('pipeline'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Compiler Pipeline</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('llvm'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">LLVM Backend</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: LLVM ── -->
+      <div class="page" id="page-llvm">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> compiler / llvm backend</div>
+        <div class="page-header">
+          <div class="page-title">LLVM Backend</div>
+          <div class="page-meta"><span>~4 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">The LLVM backend lowers Typed IR to textual LLVM IR, then uses the host Clang toolchain to emit objects and link binaries.</p>
+
+        <h2>CLI</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>cnegc llvm-ir examples/valid_llvm_backend.cneg
+cnegc obj     examples/valid_basic.cneg
+cnegc build   examples/valid_basic.cneg</pre>
+        </div>
+
+        <h2>Supported lowering</h2>
+        <ul>
+          <li><code>int</code>, <code>bool</code>, <code>str</code>, arrays, structs, <code>ptr</code>, and <code>result</code> types.</li>
+          <li>Local bindings with mutable reassignment.</li>
+          <li>Arithmetic and comparison operators.</li>
+          <li>Short-circuit <code>&amp;&amp;</code> and <code>||</code>.</li>
+          <li><code>if</code>, <code>while</code>, <code>loop</code>, and range <code>for</code>.</li>
+          <li>Local function calls and imported module function calls.</li>
+          <li>Struct literals, array literals, field access, indexing.</li>
+          <li><code>alloc</code>, <code>addr</code>, <code>deref</code>, <code>free</code>, <code>ok</code>, <code>err</code>, guarded <code>.value</code>.</li>
+          <li><code>print(...)</code>, <code>input()</code>, and string equality via embedded runtime helpers.</li>
+          <li>Host-native target triple — not hardcoded to Linux.</li>
+        </ul>
+
+        <h2>Runtime notes</h2>
+        <div class="callout note">
+          <span class="callout-icon">ℹ</span>
+          <div class="callout-body">
+            <div class="callout-title">input() ownership</div>
+            <p><code>input()</code> trims the trailing newline and returns a heap-allocated owned copy. Use <code>free</code> to release it. Freeing string literals is a safe no-op.</p>
+          </div>
+        </div>
+        <p>String equality uses <code>strcmp</code> — content-based, not pointer identity.</p>
+        <p>Unsupported lowering operations report <code>E3021</code> before any LLVM IR text is printed.</p>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('typed-ir'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Typed IR</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('errors'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Error Codes</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Errors ── -->
+      <div class="page" id="page-errors">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> reference / error codes</div>
+        <div class="page-header">
+          <div class="page-title">Error Codes</div>
+          <div class="page-meta"><span>~4 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead"><code>cnegc</code> diagnostics use stable error codes so errors can be documented and referenced consistently. All diagnostics show source path, line, and column.</p>
+
+        <h2>Parse errors (E1xxx)</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Code</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><span class="error-code">E1001</span></td><td>Expected token missing in current grammar position</td></tr>
+              <tr><td><span class="error-code">E1002</span></td><td>Unexpected token for current grammar rule</td></tr>
+              <tr><td><span class="error-code">E1003</span></td><td>Invalid type syntax</td></tr>
+              <tr><td><span class="error-code">E1004</span></td><td>Invalid character during lexing</td></tr>
+              <tr><td><span class="error-code">E1005</span></td><td>Unterminated string literal</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Semantic errors (E3xxx)</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Code</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><span class="error-code">E3001</span></td><td>Duplicate function name</td></tr>
+              <tr><td><span class="error-code">E3002</span></td><td>Unknown name</td></tr>
+              <tr><td><span class="error-code">E3003</span></td><td>Duplicate local binding in the same scope</td></tr>
+              <tr><td><span class="error-code">E3004</span></td><td>Type mismatch</td></tr>
+              <tr><td><span class="error-code">E3005</span></td><td>Control-flow condition is not <code>bool</code></td></tr>
+              <tr><td><span class="error-code">E3006</span></td><td>Assignment to immutable binding</td></tr>
+              <tr><td><span class="error-code">E3007</span></td><td>Non-void function does not return on every path</td></tr>
+              <tr><td><span class="error-code">E3008</span></td><td>Incorrect function call arity</td></tr>
+              <tr><td><span class="error-code">E3009</span></td><td>Unknown or invalid field access</td></tr>
+              <tr><td><span class="error-code">E3010</span></td><td>Invalid indexing target</td></tr>
+              <tr><td><span class="error-code">E3011</span></td><td>Array literal size mismatch</td></tr>
+              <tr><td><span class="error-code">E3012</span></td><td>Unknown declared type or module-qualified type without matching import</td></tr>
+              <tr><td><span class="error-code">E3013</span></td><td>Duplicate struct name</td></tr>
+              <tr><td><span class="error-code">E3014</span></td><td>Invalid call target or module-as-value usage</td></tr>
+              <tr><td><span class="error-code">E3015</span></td><td><code>err</code> used without an expected <code>result</code> type</td></tr>
+              <tr><td><span class="error-code">E3016</span></td><td>Duplicate import alias</td></tr>
+              <tr><td><span class="error-code">E3017</span></td><td>Module file could not be resolved or loaded</td></tr>
+              <tr><td><span class="error-code">E3018</span></td><td>Cyclic module import</td></tr>
+              <tr><td><span class="error-code">E3019</span></td><td><code>free</code> requires a pointer or string value</td></tr>
+              <tr><td><span class="error-code">E3020</span></td><td>Internal typed IR lowering invariant failed</td></tr>
+              <tr><td><span class="error-code">E3021</span></td><td>LLVM backend does not support the requested feature yet</td></tr>
+              <tr><td><span class="error-code">E3022</span></td><td>External backend toolchain step failed</td></tr>
+              <tr><td><span class="error-code">E3023</span></td><td>Public API exposes a private type</td></tr>
+              <tr><td><span class="error-code">E3024</span></td><td><code>result.value</code> used without a proven-ok guard</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Diagnostic style</h2>
+        <ul>
+          <li>Show source path, line, and column.</li>
+          <li>One clear primary sentence per diagnostic.</li>
+          <li>Prefer describing both expected and actual types for mismatches.</li>
+          <li>Reject ambiguous truthiness in conditions with <code>E3005</code>.</li>
+          <li>Report missing struct fields directly at the literal or access site.</li>
+        </ul>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('llvm'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">LLVM Backend</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('roadmap'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Roadmap</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Rules ── -->
+      <div class="page" id="page-rules">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> reference / project rules</div>
+        <div class="page-header">
+          <div class="page-title">Project Rules</div>
+          <div class="page-meta"><span>~2 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">Enforced rules that keep the compiler codebase consistent and auditable.</p>
+
+        <h2>Implementation rules</h2>
+        <ul>
+          <li>Compiler and tooling code is written in C.</li>
+          <li>Performance-critical hot paths are reserved for assembly once profiling proves they matter.</li>
+          <li>No source file may exceed 3 000 lines.</li>
+          <li>Developer-facing memory leak tracking must be enabled from the start.</li>
+          <li>Diagnostics must be specific, stable, and documented.</li>
+          <li>Statement-terminator rules stay explicit: semicolons required for simple statements.</li>
+        </ul>
+
+        <h2>Enforced checks</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="lang-label">shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre>make check-lines  <span class="cm"># rejects files over the 3000-line cap</span></pre>
+        </div>
+        <p>The compiler uses a tracked allocator and prints live allocations on shutdown if any memory is left unreleased.</p>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('errors'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Error Codes</div>
+          </a>
+          <a class="page-nav-btn next" href="#" onclick="navigate('roadmap'); return false;">
+            <div class="page-nav-label">Next →</div>
+            <div class="page-nav-title">Roadmap</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── PAGE: Roadmap ── -->
+      <div class="page" id="page-roadmap">
+        <div class="breadcrumb"><a href="#" onclick="navigate('overview');return false;">cnegative</a> <span>/</span> roadmap</div>
+        <div class="page-header">
+          <div class="page-title">Roadmap</div>
+          <div class="page-meta"><span>~1 min read</span><span class="sep">·</span><a href="https://github.com/cnegative/cnegative" target="_blank">Edit on GitHub ↗</a></div>
+        </div>
+        <p class="page-lead">Near-term compiler work. This list reflects the current priorities, not a release schedule.</p>
+
+        <h2>Up next</h2>
+        <ol>
+          <li><strong>String ownership story</strong> — generalize beyond <code>input()</code> so ownership is explicit for more producers.</li>
+          <li><strong>Module-level constants</strong> — add constants and finish visibility rules for exported symbols beyond functions and structs.</li>
+          <li><strong>Parser recovery</strong> — improve recovery so one syntax mistake does not cascade into follow-on errors across the file.</li>
+          <li><strong>Standard library surface</strong> — add more backend and runtime coverage for a richer stdlib.</li>
+          <li><strong>IR optimization passes</strong> — introduce optimization on typed IR before LLVM lowering.</li>
+        </ol>
+
+        <div class="callout tip">
+          <span class="callout-icon">✦</span>
+          <div class="callout-body">
+            <div class="callout-title">contributions welcome</div>
+            <p>Open an issue or pull request on <a href="https://github.com/cnegative/cnegative" target="_blank">GitHub ↗</a> to discuss ideas or report bugs.</p>
+          </div>
+        </div>
+
+        <div class="page-nav">
+          <a class="page-nav-btn" href="#" onclick="navigate('rules'); return false;">
+            <div class="page-nav-label">← Previous</div>
+            <div class="page-nav-title">Project Rules</div>
+          </a>
+          <div></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /content-wrap -->
+</div><!-- /layout -->
+
+<script>
+const pageMap = {
+  overview: 'page-overview',
+  install: 'page-install',
+  quickstart: 'page-quickstart',
+  build: 'page-build',
+  spec: 'page-spec',
+  pipeline: 'page-pipeline',
+  'typed-ir': 'page-typed-ir',
+  llvm: 'page-llvm',
+  errors: 'page-errors',
+  rules: 'page-rules',
+  roadmap: 'page-roadmap',
+};
+
+function navigate(key) {
+  // hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // show target
+  const el = document.getElementById(pageMap[key]);
+  if (el) el.classList.add('active');
+  // update active nav link
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => {
+    const onclick = l.getAttribute('onclick') || '';
+    if (onclick.includes(`'${key}'`)) l.classList.add('active');
+  });
+  // scroll to top
+  document.getElementById('content-wrap').scrollTop = 0;
+  // close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('icon-moon').style.display = isDark ? 'block' : 'none';
+  document.getElementById('icon-sun').style.display  = isDark ? 'none'  : 'block';
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+</script>
+</body>
+</html>
