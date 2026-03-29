@@ -12,10 +12,25 @@ Go to [github.com/cnegative/cnegative/releases ↗](https://github.com/cnegative
 | <span class="badge mac">macOS</span> | `cnegc-<tag>-macos-arm64.zip` |
 | <span class="badge win">Windows</span> | `cnegc-<tag>-windows-x86_64.zip` |
 
-## Linux & macOS
+## Linux
 
 ```shell
-unzip cnegc-v0.2.0-dev-linux-x86_64.zip
+unzip cnegc-v0.2.1-dev-linux-x86_64.zip
+mkdir -p "$HOME/.local/bin"
+cp release/cnegc/cnegc "$HOME/.local/bin/"
+chmod +x "$HOME/.local/bin/cnegc"
+```
+
+If `~/.local/bin` isn't on your `PATH`, add this to your shell config:
+
+```shell
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+## macOS
+
+```shell
+unzip cnegc-v0.2.1-dev-macos-arm64.zip
 mkdir -p "$HOME/.local/bin"
 cp release/cnegc/cnegc "$HOME/.local/bin/"
 chmod +x "$HOME/.local/bin/cnegc"

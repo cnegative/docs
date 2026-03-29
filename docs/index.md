@@ -9,7 +9,7 @@ A minimal, hackable systems language for learning explicit low-level programming
 The compiler ships today with structured diagnostics, parser recovery, typed IR lowering, typed IR optimization, LLVM IR emission, and object + binary linking through the host Clang toolchain.
 
 ::: info current status
-This is **v0.2.0-dev**. The language and compiler are under active development. The surface is intentionally small.
+This is **v0.2.1-dev**. The language and compiler are under active development. The surface is intentionally small.
 :::
 
 ## Core rules at a glance
@@ -55,8 +55,20 @@ hello, alice
 - arrays, structs, indexing, and field access
 - imports, qualified calls, qualified types, and qualified public constants
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
+- initial stdlib modules: `std.math`, `std.strings`, `std.parse`, `std.fs`, `std.io`, `std.time`, `std.env`, `std.path`, `std.net`, and `std.process`
 - typed IR dumps with simple optimization already applied
 - LLVM IR, object files, and linked binaries
+
+## Standard library docs
+
+The stdlib now has its own section in the docs:
+
+- [Overview](/stdlib/overview)
+- [Math & Process](/stdlib/math-and-process)
+- [Strings & Parse](/stdlib/strings-and-parse)
+- [Files & IO](/stdlib/files-and-io)
+- [Env, Path & Time](/stdlib/env-path-time)
+- [Net](/stdlib/net)
 
 ## Platform support
 

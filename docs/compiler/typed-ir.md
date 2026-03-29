@@ -6,6 +6,7 @@ After semantic analysis, checked source is lowered to a structured typed IR befo
 
 - independent IR node types instead of reusing the parser AST
 - canonical module-qualified function, struct, and public constant names
+- canonical module-qualified builtin stdlib calls such as `std.math.clamp(...)`, `std.strings.concat(...)`, `std.fs.file_size(...)`, `std.path.extension(...)`, `std.net.join_host_port(...)`, and `std.process.platform(...)`
 - explicit return statements preserved from source
 - structured control flow preserved for `if`, `while`, `loop`, and range `for`
 - simple optimization passes run before backend lowering
@@ -30,6 +31,16 @@ module valid_consts_strings (...) {
         return 20;
     }
 }
+```
+
+Builtin stdlib calls remain visible in the IR instead of disappearing too early:
+
+```text
+let cwd:result str = std.fs.cwd();
+let endpoint:str = std.net.join_host_port("127.0.0.1", 8080);
+let parsed:result int = std.parse.to_int("42");
+let bounded:int = std.math.clamp(99, 0, 7);
+let platform:str = std.process.platform();
 ```
 
 ## What the optimizer currently does

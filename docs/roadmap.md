@@ -14,6 +14,7 @@ Near-term compiler work. This list reflects the current priorities, not a releas
 - module-level `const` and `pconst`
 - parser recovery for continued syntax diagnostics
 - typed IR optimization before LLVM lowering
+- initial stdlib modules across math, strings, parse, files, IO, env, path, time, basic `std.net`, and process helpers
 
 ::: tip contributions welcome
 Open an issue or pull request on [GitHub ↗](https://github.com/cnegative/cnegative) to discuss ideas or report bugs.

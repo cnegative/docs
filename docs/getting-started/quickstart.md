@@ -91,5 +91,7 @@ fn:int main() {
 ```
 
 ::: tip current ownership rule
-Owned runtime strings currently come from `input()`, `str_copy(...)`, and `str_concat(...)`.
+Owned runtime strings currently come from `input()`, `str_copy(...)`, `str_concat(...)`, and several stdlib calls such as `std.io.read_line()`, `std.fs.read_text(...)`, `std.fs.cwd(...)`, `std.net.join_host_port(...)`, `std.process.platform()`, and `std.process.arch()`.
 :::
+
+If you want the module-by-module stdlib surface, continue with [Standard Library Overview](/stdlib/overview).

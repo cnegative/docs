@@ -53,6 +53,17 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Standard Library',
+        items: [
+          { text: 'Overview', link: '/stdlib/overview' },
+          { text: 'Math & Process', link: '/stdlib/math-and-process' },
+          { text: 'Strings & Parse', link: '/stdlib/strings-and-parse' },
+          { text: 'Files & IO', link: '/stdlib/files-and-io' },
+          { text: 'Env, Path & Time', link: '/stdlib/env-path-time' },
+          { text: 'Net', link: '/stdlib/net' }
+        ]
+      },
+      {
         text: 'Compiler',
         items: [
           { text: 'Pipeline', link: '/compiler/pipeline' },
@@ -70,7 +81,7 @@ export default defineConfig({
       }
     ],
     footer: {
-      message: 'cnegative docs track the current v0.2.0-dev compiler surface.',
+      message: 'cnegative docs track the current v0.2.1-dev compiler surface.',
       copyright: 'Apache-2.0'
     },
     socialLinks: [

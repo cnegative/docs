@@ -22,14 +22,17 @@ cnegc build   examples/valid_basic.cneg
 - Struct literals, array literals, field access, indexing.
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, guarded `.value`.
 - `print(...)`, `input()`, `str_copy(...)`, `str_concat(...)`, and string equality via embedded runtime helpers.
+- `std.math`, `std.strings`, `std.parse`, `std.fs`, `std.io`, `std.time`, `std.env`, `std.path`, `std.net`, and `std.process` through embedded runtime helpers.
 - Host-native target triple — not hardcoded to Linux.
 
 ## Runtime notes
 
 ::: info owned strings
-`input()`, `str_copy(...)`, and `str_concat(...)` produce owned runtime strings. Use `free` to release them. Freeing string literals is a safe no-op.
+`input()`, `str_copy(...)`, `str_concat(...)`, `std.io.read_line(...)`, `std.fs.read_text(...)`, `std.fs.cwd(...)`, `std.net.join_host_port(...)`, `std.process.platform(...)`, and `std.process.arch(...)` produce owned runtime strings. Use `free` to release them. Freeing string literals is a safe no-op.
 :::
 
 String equality uses `strcmp` — content-based, not pointer identity.
+
+`std.net` is currently a small formatting/validation layer, not a socket API.
 
 Unsupported lowering operations report `E3021` before any LLVM IR text is printed.
