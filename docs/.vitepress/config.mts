@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  base: '/docs/',
   title: "cnegative",
   description: "A minimal, hackable systems language for learning explicit low-level programming.",
   appearance: 'dark',
