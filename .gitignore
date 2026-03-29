@@ -1,1 +1,6 @@
 .DS_Store
+node_modules
+dist
+.vitepress/cache
+.vitepress/dist
+*.bak
