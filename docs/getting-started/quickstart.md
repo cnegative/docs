@@ -1,13 +1,19 @@
 # Quick Start
 
-Write, check, and run your first `cnegative` program from scratch.
+This page is the fastest beginner path:
 
-## Your first function
+1. write one file
+2. check it
+3. build it
+4. run it
+
+You do not need to understand pointers, LLVM, or the full stdlib to get started.
+
+## First program
 
 Create `add.cneg`:
 
 ```cneg
-// add.cneg
 fn:int add(a:int, b:int) {
     return a + b;
 }
@@ -19,13 +25,29 @@ fn:int main() {
 }
 ```
 
-Check it (no Clang needed):
+What each part means:
+
+- `fn:int add(...)` declares a function returning `int`
+- `a:int` means parameter `a` has type `int`
+- `let result:int = ...;` creates a local value
+- `print(result);` prints the value
+- `return 0;` ends `main`
+
+## Step 1: check the file
 
 ```shell
 cnegc check add.cneg
 ```
 
-Build and run:
+This only runs:
+
+- lexing
+- parsing
+- semantic analysis
+
+It does not build a binary.
+
+## Step 2: build and run
 
 ```shell
 cnegc build add.cneg build/add
@@ -33,9 +55,64 @@ cnegc build add.cneg build/add
 5
 ```
 
-## Using result types
+::: tip what `build` needs
+`check`, `ir`, and `llvm-ir` only need `cnegc`.
+`build` needs `clang-18` or `clang` in `PATH`.
+:::
 
-Fallible operations return `result T`. The `.value` field is only accessible after a guard:
+## First mistakes beginners usually hit
+
+### 1. Using the wrong case for types
+
+`str` is valid.
+`Str` is not.
+
+```cneg
+let name:str = input();
+```
+
+### 2. Forgetting explicit return
+
+This is invalid:
+
+```cneg
+fn:int main() {
+    print(1);
+}
+```
+
+This is valid:
+
+```cneg
+fn:int main() {
+    print(1);
+    return 0;
+}
+```
+
+### 3. Using non-boolean conditions
+
+This is invalid:
+
+```cneg
+let x:int = 3;
+if x {
+    print(x);
+}
+```
+
+This is valid:
+
+```cneg
+let x:int = 3;
+if x > 0 {
+    print(x);
+}
+```
+
+## Results in one sentence
+
+`result T` means “this operation might fail”.
 
 ```cneg
 fn:result int divide(a:int, b:int) {
@@ -44,40 +121,27 @@ fn:result int divide(a:int, b:int) {
     }
     return ok a / b;
 }
+```
 
+To read `.value`, first prove the result is ok:
+
+```cneg
 fn:int main() {
     let r:result int = divide(10, 2);
     if r.ok {
-        print(r.value);  // only valid inside this guard
+        print(r.value);
     }
     return 0;
 }
 ```
 
-::: danger unguarded .value is rejected
-Accessing `r.value` without a preceding `if r.ok` guard is a compile-time error `E3024`.
+::: warning `.value` is guarded on purpose
+Using `r.value` without a preceding `if r.ok` guard reports `E3024`.
 :::
 
-## Importing modules and public constants
+## Strings in one sentence
 
-```cneg
-// numbers.cneg
-pconst BASE:int = 5;
-pconst SHIFT:int = BASE + 7;
-```
-
-```cneg
-// main.cneg
-import numbers as n;
-
-const LOCAL:int = n.SHIFT + 8;
-
-fn:int main() {
-    return LOCAL;
-}
-```
-
-## Owned strings beyond input
+Some strings are runtime-owned and should be freed when you are done with them.
 
 ```cneg
 fn:int main() {
@@ -90,8 +154,11 @@ fn:int main() {
 }
 ```
 
-::: tip current ownership rule
-Owned runtime strings currently come from `input()`, `str_copy(...)`, `str_concat(...)`, and several stdlib calls such as `std.io.read_line()`, `std.fs.read_text(...)`, `std.fs.cwd(...)`, `std.net.join_host_port(...)`, `std.process.platform()`, and `std.process.arch()`.
-:::
+## Where to go next
 
-If you want the module-by-module stdlib surface, continue with [Standard Library Overview](/stdlib/overview).
+If this page made sense, continue in this order:
+
+1. [Functions & Variables](/language/functions-and-variables)
+2. [Types & Control Flow](/language/types-and-control-flow)
+3. [Memory & Results](/language/memory-and-results)
+4. [Strings & Ownership](/language/strings-and-ownership)

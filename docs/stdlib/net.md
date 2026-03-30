@@ -1,13 +1,16 @@
 # `std.net`
 
-`std.net` is now the first real networking slice in `cnegative`.
+`std.net` is the first networking slice in `cnegative`.
 
-It stays deliberately small and beginner-first:
+It is deliberately small and beginner-first:
 
 - blocking IPv4 TCP and UDP only
 - raw socket/listener handles as `int`
-- simple text helpers still available
-- no async runtime and no DNS layer
+- simple text helpers
+- no async runtime
+- no HTTP, TLS, or DNS convenience layer
+
+If you are brand new to the language, you can skip this page for now and come back later.
 
 ## Import
 
@@ -30,7 +33,14 @@ import std.net as net;
 - `net.udp_recv_from(int, int) -> result net.UdpPacket`
 - `net.close(int) -> result bool`
 
-## Example
+## The easiest functions to understand first
+
+Start with these:
+
+- `net.is_ipv4(...)`
+- `net.join_host_port(...)`
+
+Example:
 
 ```cneg
 import std.net as net;
@@ -48,11 +58,40 @@ fn:int main() {
 }
 ```
 
-## Blocking TCP example
+## What “blocking” means
+
+Blocking means the program waits at that call until the operation finishes.
+
+For example:
+
+- `accept(...)` waits for a client
+- `recv(...)` waits for data
+- `udp_recv_from(...)` waits for one datagram
+
+That is simpler for beginners than async/event-loop networking.
+
+## TCP in one sentence
+
+TCP is the connected path:
+
+- connect to a peer
+- send text
+- receive text
+- close the socket
+
+## UDP in one sentence
+
+UDP is the datagram path:
+
+- bind a socket
+- send one packet
+- receive one packet
+- check who sent it
+
+## TCP example
 
 ```cneg
 import std.net as net;
-import std.strings as strings;
 
 fn:int main() {
     let socket:result int = net.tcp_connect("127.0.0.1", 34567);
@@ -60,53 +99,19 @@ fn:int main() {
         return 1;
     }
 
-    if socket.ok {
-        let sent:result int = net.send(socket.value, "ping");
-        if sent.ok == false {
-            let closed:result bool = net.close(socket.value);
-            if closed.ok == false {
-                return 2;
-            }
-            return 3;
-        }
-
-        let reply:result str = net.recv(socket.value, 32);
-        if reply.ok == false {
-            let closed:result bool = net.close(socket.value);
-            if closed.ok == false {
-                return 4;
-            }
-            return 5;
-        }
-
-        if reply.ok {
-            if strings.eq(reply.value, "pong") == false {
-                free reply.value;
-                let closed:result bool = net.close(socket.value);
-                if closed.ok == false {
-                    return 6;
-                }
-                return 7;
-            }
-
-            free reply.value;
-        }
-
-        let closed:result bool = net.close(socket.value);
-        if closed.ok == false {
-            return 8;
-        }
+    let closed:result bool = net.close(socket.value);
+    if closed.ok == false {
+        return 2;
     }
 
     return 0;
 }
 ```
 
-## Blocking UDP example
+## UDP example
 
 ```cneg
 import std.net as net;
-import std.strings as strings;
 
 fn:int main() {
     let socket:result int = net.udp_bind("", 34567);
@@ -114,74 +119,23 @@ fn:int main() {
         return 1;
     }
 
-    if socket.ok {
-        let packet:result net.UdpPacket = net.udp_recv_from(socket.value, 64);
-        if packet.ok == false {
-            let closed:result bool = net.close(socket.value);
-            if closed.ok == false {
-                return 2;
-            }
-            return 3;
-        }
-
-        if packet.ok {
-            if strings.eq(packet.value.data, "ping") == false {
-                free packet.value.host;
-                free packet.value.data;
-                let closed:result bool = net.close(socket.value);
-                if closed.ok == false {
-                    return 4;
-                }
-                return 5;
-            }
-
-            free packet.value.host;
-            free packet.value.data;
-        }
-
-        let closed:result bool = net.close(socket.value);
-        if closed.ok == false {
-            return 6;
-        }
+    let closed:result bool = net.close(socket.value);
+    if closed.ok == false {
+        return 2;
     }
 
     return 0;
 }
 ```
 
-## What `is_ipv4(...)` accepts
+## Ownership notes
 
-- dotted decimal like `"127.0.0.1"`
-- exactly four numeric parts
-- each part in the `0..255` range
-
-## What `is_ipv4(...)` rejects
-
-- missing parts like `"127.0.0"`
-- too many parts like `"1.2.3.4.5"`
-- non-digits like `"127.0.one.1"`
-- out-of-range parts like `"256.0.0.1"`
-
-## Current behavior
-
-- `tcp_connect(host, port)` opens a blocking IPv4 TCP client connection.
-- `tcp_listen(host, port)` opens a blocking IPv4 TCP listener.
-- `accept(listener)` blocks until one client connects.
-- `send(socket, text)` blocks until the full string is written or the send fails.
-- `recv(socket, max_bytes)` blocks until a chunk arrives or the peer closes.
-- `udp_bind(host, port)` opens a blocking IPv4 UDP socket bound to a local address.
-- `udp_send_to(socket, host, port, text)` sends one full UDP datagram.
-- `udp_recv_from(socket, max_bytes)` blocks until one datagram arrives and returns a `UdpPacket`.
-- `close(handle)` closes a socket or listener.
+- `net.join_host_port(...)` returns an owned string
+- `net.recv(...)` returns an owned string on success
+- `net.udp_recv_from(...)` returns a packet where `packet.host` and `packet.data` are both owned strings
 
 ::: warning raw handles
-Current socket and listener handles are plain `int` values. This is explicit and low-level by design, but it means the language does not yet give you an opaque socket type.
-:::
-
-::: tip ownership
-`net.join_host_port(...)` returns an owned string. Free it after use.
-`net.recv(...)` also returns an owned string on success.
-`net.udp_recv_from(...)` returns a packet where `packet.host` and `packet.data` are both owned strings and should be freed after use.
+Socket and listener handles are plain `int` values right now. This is explicit and low-level by design.
 :::
 
 ::: info platform model

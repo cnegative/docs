@@ -1,13 +1,30 @@
 # Language Overview
 
-`cnegative` is meant to be read in long codebases without hidden behavior. The beginner path is simple: learn declarations, learn control flow, then move into modules, memory, and ownership.
+This page is the map of the language, not the full reference.
 
-## Core rules first
+If you are new, read it once to understand the shape of `cnegative`, then move into the smaller tutorial pages.
 
-- simple statements end with `;`
-- non-void functions must use explicit `return ...;`
-- conditions must be real `bool` values
-- visibility is explicit with `pfn`, `pstruct`, and `pconst`
+## The basic idea
+
+`cnegative` is intentionally explicit.
+
+That means:
+
+- types are written out
+- conditions must be `bool`
+- functions return explicitly
+- public API is marked explicitly
+- ownership rules are visible instead of hidden
+
+The goal is not “fewest keystrokes”.
+The goal is “small rules, easy to reason about”.
+
+## Four rules to remember
+
+1. Simple statements end with `;`
+2. Non-void functions must `return ...;`
+3. Conditions must be `bool`
+4. Public declarations use `pfn`, `pstruct`, and `pconst`
 
 ```cneg
 fn:int main() {
@@ -22,7 +39,8 @@ fn:int main() {
 ```
 
 ::: warning no implicit truthiness
-`if x {}` is invalid when `x` is an `int`. Write an actual boolean expression like `if x > 0 {}`.
+`if x {}` is invalid when `x` is an `int`.
+Write `if x > 0 {}` instead.
 :::
 
 ## Learn the language in this order
@@ -35,16 +53,31 @@ fn:int main() {
 6. [Strings & Ownership](/language/strings-and-ownership)
 7. [Standard Library Overview](/stdlib/overview)
 
+That order is intentional. It moves from “ordinary code” into “systems code”.
+
 ## Current implemented surface
 
 - `fn`, `pfn`, `struct`, `pstruct`, `const`, and `pconst`
 - `int`, `u8`, `bool`, `str`, `void`, `ptr T`, and `result T`
 - `byte` as a readable alias for `u8`
-- `if`, `while`, `loop`, and range `for`
+- `if`, `while`, `loop`, range `for`, and narrow `if` expressions
 - arrays, structs, indexing, field access, and qualified module access
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
 - builtin stdlib modules for math, strings, parsing, files, IO, environment, paths, time, blocking IPv4 TCP/UDP, process helpers, and an experimental Linux-only `std.x11` window path
 
+## What to ignore on your first pass
+
+You do not need these right away:
+
+- compiler internals
+- LLVM backend details
+- experimental `std.x11`
+- blocking networking APIs
+
+Those are real parts of the project, but they are not the beginner path.
+
 ## What to read next
 
-If you want to write code immediately, start with [Quick Start](/getting-started/quickstart). If you want the language in a clean order, continue with [Functions & Variables](/language/functions-and-variables). If you want the practical helper surface, jump to [Standard Library Overview](/stdlib/overview).
+If you want to start writing code immediately, go to [Quick Start](/getting-started/quickstart).
+
+If you want the language in the clean learning order, continue with [Functions & Variables](/language/functions-and-variables).

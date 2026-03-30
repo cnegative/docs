@@ -1,12 +1,20 @@
 # Files & IO
 
-These modules cover the first useful slice of local file work and terminal IO.
+These modules cover the first practical “real program” tasks:
+
+- read and write files
+- print text
+- read a line from the terminal
 
 ## `std.fs`
+
+Use `std.fs` for local file and directory work.
 
 ```cneg
 import std.fs as fs;
 ```
+
+Current API:
 
 - `fs.exists(str) -> bool`
 - `fs.cwd() -> result str`
@@ -21,7 +29,7 @@ import std.fs as fs;
 - `fs.move(str, str) -> result bool`
 - `fs.remove(str) -> result bool`
 
-### Example
+## Small example
 
 ```cneg
 import std.strings as strings;
@@ -46,21 +54,26 @@ fn:int main() {
 }
 ```
 
-::: info metadata and file operations first
-The current `std.fs` slice is practical, but still small. You get file text operations, current working directory, byte-size checks, file copy/move helpers, and basic directory creation/removal.
-:::
+What to notice:
+
+- file operations can fail, so many return `result ...`
+- `strings.copy(...)` created owned text, so it is freed
 
 ## `std.io`
+
+Use `std.io` for terminal-style input/output.
 
 ```cneg
 import std.io as io;
 ```
 
+Current API:
+
 - `io.write(str) -> void`
 - `io.write_line(str) -> void`
 - `io.read_line() -> str`
 
-### Example
+## Small example
 
 ```cneg
 import std.io as io;
@@ -79,3 +92,14 @@ fn:int main() {
 ::: warning ownership
 `io.read_line()` returns an owned string. Free it after use.
 :::
+
+## Beginner recommendation
+
+If you are new, start with:
+
+- `io.write_line(...)`
+- `io.read_line()`
+- `fs.write_text(...)`
+- `fs.read_text(...)`
+
+That gives you enough to build small text tools very quickly.

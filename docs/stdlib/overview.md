@@ -1,6 +1,23 @@
 # Standard Library Overview
 
-The `cnegative` standard library is still intentionally small. It exists to make common beginner tasks practical without hiding the language's explicit style.
+The `cnegative` standard library is intentionally small.
+
+That is good for beginners: you can learn it without feeling like you need a huge ecosystem map first.
+
+## How to use this section
+
+If you are new, do not try to read every module in one pass.
+
+Read in this order:
+
+1. [Strings & Parse](/stdlib/strings-and-parse)
+2. [Files & IO](/stdlib/files-and-io)
+3. [Math & Process](/stdlib/math-and-process)
+4. [Env, Path & Time](/stdlib/env-path-time)
+5. [Net](/stdlib/net)
+6. [X11](/stdlib/x11)
+
+That order goes from “ordinary small programs” to “host/platform experiments”.
 
 ## Current modules
 
@@ -26,9 +43,9 @@ This is not a full batteries-included platform yet. The current stdlib is the fi
 
 ## What is owned and what must be freed?
 
-Some stdlib functions return owned runtime strings. Those can and should be released with `free`.
+Some stdlib functions return owned runtime strings. Those should be released with `free`.
 
-Current owned-string stdlib producers:
+Current owned-string stdlib producers include:
 
 - `std.process.platform(...)`
 - `std.process.arch(...)`
@@ -47,33 +64,30 @@ Current owned-string stdlib producers:
 - `std.net.recv(...)` on success
 - the `host` and `data` fields from successful `std.net.udp_recv_from(...)`
 
-## Recommended reading order
+## Beginner recommendation
 
-1. [Strings & Parse](/stdlib/strings-and-parse)
-2. [Math & Process](/stdlib/math-and-process)
-3. [Files & IO](/stdlib/files-and-io)
-4. [Env, Path & Time](/stdlib/env-path-time)
-5. [Net](/stdlib/net)
-6. [X11](/stdlib/x11)
+If you are writing your first few programs, start with:
 
-## Example
+- `std.io`
+- `std.strings`
+- `std.fs`
+- `std.parse`
+
+You can ignore `std.net` and `std.x11` until the basics feel comfortable.
+
+## Tiny example
 
 ```cneg
-import std.net as net;
+import std.fs as fs;
+import std.io as io;
 
 fn:int main() {
-    let listener:result int = net.tcp_listen("127.0.0.1", 34567);
-    if listener.ok == false {
+    let ok:result bool = fs.write_text("build/demo.txt", "42");
+    if ok.ok == false {
         return 1;
     }
 
-    if listener.ok {
-        let closed:result bool = net.close(listener.value);
-        if closed.ok == false {
-            return 2;
-        }
-    }
-
+    io.write_line("done");
     return 0;
 }
 ```

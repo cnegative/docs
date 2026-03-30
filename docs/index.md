@@ -1,77 +1,112 @@
 # cnegative
 
-A minimal, hackable systems language for learning explicit low-level programming. Designed as a stepping stone before C, C++, or lower-level systems work.
+A minimal, hackable systems language for learning explicit low-level programming.
 
-## What is cnegative?
+`cnegative` is meant for people who want to understand how low-level programs work without jumping straight into the full weight of C or C++ on day one.
 
-`cnegative` keeps manual control, reduces hidden behavior, and prefers words over symbolic shortcuts when that improves clarity. It compiles to native code through LLVM.
-
-The compiler ships today with structured diagnostics, parser recovery, typed IR lowering, typed IR optimization, LLVM IR emission, object + binary linking through the host Clang toolchain, a small blocking TCP/UDP slice in `std.net`, and an experimental Linux-only `std.x11` stress-test path for real windows.
+It keeps the surface small, makes rules visible, and avoids hidden behavior where possible.
 
 ::: info current status
-This is **v0.3.2**. The language and compiler are under active development. The surface is intentionally small.
+This is **v0.3.2**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
 :::
 
-## Core rules at a glance
+## Who this is for
 
-- Semicolons required for import declarations, simple statements, and struct fields.
-- Non-void functions must use explicit `return` on every path.
-- Conditions must be actual `bool` values — no implicit integer truthiness.
-- Visibility is explicit: `pfn`, `pstruct`, and `pconst` for public exports.
+`cnegative` is a good fit if you want:
 
-::: warning no implicit truthiness
-`if x {}` is rejected when `x` is an `int`. Write `if x > 0 {}` instead.
-:::
+- a beginner path into systems programming
+- explicit control over values, memory, and errors
+- a language you can read end to end without a huge standard library
+- a compiler you can inspect and learn from
 
-## Quick example
+It is not trying to be:
+
+- a giant batteries-included platform
+- a high-level scripting language
+- a polished replacement for C, C++, Rust, or Zig
+
+## The mental model
+
+Think of `cnegative` like this:
+
+1. Values have explicit types.
+2. Conditions must be real `bool` values.
+3. Non-void functions return explicitly.
+4. Public API is marked explicitly.
+5. Heap-backed values that you own should be freed explicitly.
+
+If you keep those five ideas in mind, most of the language will feel straightforward.
+
+## What to learn first
+
+If you are new, do not start with the compiler pages.
+
+Start in this order:
+
+1. [Quick Start](/getting-started/quickstart)
+2. [Functions & Variables](/language/functions-and-variables)
+3. [Types & Control Flow](/language/types-and-control-flow)
+4. [Memory & Results](/language/memory-and-results)
+5. [Strings & Ownership](/language/strings-and-ownership)
+6. [Standard Library Overview](/stdlib/overview)
+
+After that, move into modules, structs, arrays, and compiler internals.
+
+## What to ignore for now
+
+If you are just learning the language, you can safely ignore these on your first pass:
+
+- LLVM IR
+- typed IR
+- `std.x11`
+- TCP/UDP helpers in `std.net`
+- release/build pipeline details
+
+Those are useful later. They are not needed to write your first small program.
+
+## A first example
 
 ```cneg
-// hello.cneg
-const GREETING:str = "hello";
-
 fn:int main() {
-    let name:str = input();
-    let prefix:str = str_concat(GREETING, ", ");
-    let message:str = str_concat(prefix, name);
-    print(message);
-    free name;
-    free prefix;
-    free message;
+    let a:int = 2;
+    let b:int = 3;
+    let sum:int = a + b;
+    print(sum);
     return 0;
 }
 ```
 
-```shell
-$ cnegc build hello.cneg build/hello
-$ ./build/hello
-hello, alice
-```
+What is happening here:
+
+- `fn:int main()` says `main` returns an `int`
+- `let` creates named values
+- types are written explicitly
+- `print(sum);` prints the value
+- `return 0;` ends the program successfully
+
+## Core rules at a glance
+
+- Semicolons are required for simple statements, import lines, and struct fields.
+- Conditions must be `bool`.
+- Non-void functions must return explicitly on every path.
+- Visibility is explicit: `pfn`, `pstruct`, and `pconst` are the public forms.
+- `byte` is just an alias for `u8`.
+
+::: warning common beginner mistake
+`if x {}` is rejected when `x` is an `int`. Write a real boolean expression like `if x > 0 {}`.
+:::
 
 ## What exists today
 
-- explicit `fn`, `pfn`, `struct`, `pstruct`, `const`, and `pconst`
+- `fn`, `pfn`, `struct`, `pstruct`, `const`, and `pconst`
 - `int`, `u8`, `bool`, `str`, `void`, `ptr T`, and `result T`
 - `byte` as a readable alias for `u8`
-- `if`, `while`, `loop`, and range `for`
+- `if`, `while`, `loop`, range `for`, and narrow `if` expressions
 - arrays, structs, indexing, and field access
 - imports, qualified calls, qualified types, and qualified public constants
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
-- initial stdlib modules: `std.math`, `std.strings`, `std.parse`, `std.fs`, `std.io`, `std.time`, `std.env`, `std.path`, `std.net`, `std.process`, and the experimental Linux-only `std.x11`
-- beginner-first blocking IPv4 TCP and UDP helpers in `std.net`
-- a tiny real-window stress-test path through the experimental Linux-only `std.x11`
-- typed IR dumps with simple optimization already applied
-- LLVM IR, object files, and linked binaries
-
-## Standard library docs
-
-The stdlib now has its own section in the docs:
-
-- [Overview](/stdlib/overview)
-- [Math & Process](/stdlib/math-and-process)
-- [Strings & Parse](/stdlib/strings-and-parse)
-- [Files & IO](/stdlib/files-and-io)
-- [Env, Path & Time](/stdlib/env-path-time)
-- [Net](/stdlib/net)
+- stdlib modules for math, strings, parsing, files, IO, env, paths, time, networking, process helpers, and the experimental Linux-only `std.x11`
+- typed IR, LLVM IR, object generation, and linked binaries
 
 ## Platform support
 

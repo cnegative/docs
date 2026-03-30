@@ -1,8 +1,12 @@
 # Types & Control Flow
 
-Once declarations make sense, the next step is understanding the built-in types and the rule that drives control flow: conditions must be `bool`.
+Once functions and variables make sense, the next step is understanding:
 
-## Primitive and composite types
+- what values exist
+- how conditions work
+- how loops work
+
+## Built-in types
 
 | Type | Meaning |
 | --- | --- |
@@ -14,19 +18,11 @@ Once declarations make sense, the next step is understanding the built-in types 
 | `ptr T` | pointer to `T` |
 | `result T` | fallible value |
 
-`byte` is a source-level alias for `u8`.
+`byte` is just another spelling of `u8`.
 
-## If and else
+## The most important control-flow rule
 
-```cneg
-if x > 5 {
-    print(x);
-} else {
-    print(0);
-}
-```
-
-The condition must already be boolean.
+Conditions must already be boolean.
 
 Valid:
 
@@ -44,7 +40,29 @@ if x {
 }
 ```
 
-## If expressions
+That rule applies to:
+
+- `if`
+- `while`
+- the condition inside `if` expressions
+
+::: warning explicit conditions only
+If a condition is not `bool`, the compiler reports `E3005`.
+:::
+
+## Ordinary `if` / `else`
+
+```cneg
+if x > 5 {
+    print(x);
+} else {
+    print(0);
+}
+```
+
+Use this when you want control flow.
+
+## `if` expressions
 
 `cnegative` also supports a narrow value-producing `if` form:
 
@@ -52,15 +70,19 @@ if x {
 let kind:int = if x > 5 { 1 } else { 0 };
 ```
 
+Use this when you want to choose one value or another.
+
 Current rules:
 
-- `else` is required.
-- Both branches must produce a value.
-- Both branches must resolve to the same type.
+- `else` is required
+- both branches must produce a value
+- both branches must resolve to the same type
 
 ## Loops
 
 ### While
+
+Use `while` when the condition should be checked each time.
 
 ```cneg
 while x < 10 {
@@ -68,7 +90,9 @@ while x < 10 {
 }
 ```
 
-### Range for
+### Range `for`
+
+Use this for simple counted loops.
 
 ```cneg
 for i:int in 0..10 {
@@ -78,29 +102,41 @@ for i:int in 0..10 {
 
 ### Infinite loop
 
+Use `loop` when you want a plain repeat-forever block.
+
 ```cneg
 loop {
 }
 ```
 
-## Boolean discipline
-
-`cnegative` rejects implicit truthiness on purpose. That keeps the code easier to audit and makes mistakes visible early.
-
-::: warning explicit conditions only
-If a condition is not `bool`, the compiler reports `E3005`.
-:::
-
 ## Integer rule today
 
-- `int` is the general arithmetic type.
-- `int` currently supports `+`, `-`, `*`, `/`, and `%`.
-- `u8` is the byte-sized storage/value type.
-- `byte` is just another spelling of `u8`.
-- Integer literals fit into `u8` automatically when a `u8` is expected.
-- Fitting integer literals also compare cleanly against `u8` and `byte` values.
-- Arithmetic still stays `int`-only for now.
-- Equality and ordered comparisons work for matching `u8` values.
+- `int` is the normal arithmetic type
+- `int` supports `+`, `-`, `*`, `/`, and `%`
+- `u8` is the byte-sized storage/value type
+- `byte` is just another spelling of `u8`
+- integer literals fit into `u8` automatically when a `u8` is expected
+- fitting integer literals also compare cleanly against `u8` and `byte` values
+- arithmetic still stays `int`-only for now
+
+## A small example with both `int` and `byte`
+
+```cneg
+fn:int main() {
+    let x:int = 9;
+    let b:byte = 0;
+
+    if x % 2 == 1 {
+        print(x);
+    }
+
+    if b == 0 {
+        return 0;
+    }
+
+    return 1;
+}
+```
 
 ## Next step
 

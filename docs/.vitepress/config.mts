@@ -36,14 +36,14 @@ export default defineConfig({
         items: [
           { text: 'Overview', link: '/' },
           { text: 'Installation', link: '/getting-started/install' },
-          { text: 'Quick Start', link: '/getting-started/quickstart' },
-          { text: 'Build & Run', link: '/getting-started/build' }
+          { text: 'First Program', link: '/getting-started/quickstart' },
+          { text: 'Build & CLI', link: '/getting-started/build' }
         ]
       },
       {
         text: 'Language',
         items: [
-          { text: 'Overview', link: '/language/spec' },
+          { text: 'Language Map', link: '/language/spec' },
           { text: 'Functions & Variables', link: '/language/functions-and-variables' },
           { text: 'Types & Control Flow', link: '/language/types-and-control-flow' },
           { text: 'Structs & Arrays', link: '/language/structs-and-arrays' },
@@ -56,9 +56,9 @@ export default defineConfig({
         text: 'Standard Library',
         items: [
           { text: 'Overview', link: '/stdlib/overview' },
-          { text: 'Math & Process', link: '/stdlib/math-and-process' },
           { text: 'Strings & Parse', link: '/stdlib/strings-and-parse' },
           { text: 'Files & IO', link: '/stdlib/files-and-io' },
+          { text: 'Math & Process', link: '/stdlib/math-and-process' },
           { text: 'Env, Path & Time', link: '/stdlib/env-path-time' },
           { text: 'Net', link: '/stdlib/net' },
           { text: 'X11', link: '/stdlib/x11' }
