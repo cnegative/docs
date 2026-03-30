@@ -44,6 +44,20 @@ if x {
 }
 ```
 
+## If expressions
+
+`cnegative` also supports a narrow value-producing `if` form:
+
+```cneg
+let kind:int = if x > 5 { 1 } else { 0 };
+```
+
+Current rules:
+
+- `else` is required.
+- Both branches must produce a value.
+- Both branches must resolve to the same type.
+
 ## Loops
 
 ### While
@@ -84,6 +98,7 @@ If a condition is not `bool`, the compiler reports `E3005`.
 - `u8` is the byte-sized storage/value type.
 - `byte` is just another spelling of `u8`.
 - Integer literals fit into `u8` automatically when a `u8` is expected.
+- Fitting integer literals also compare cleanly against `u8` and `byte` values.
 - Arithmetic still stays `int`-only for now.
 - Equality and ordered comparisons work for matching `u8` values.
 

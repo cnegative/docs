@@ -43,7 +43,7 @@ fn:int main() {
 - `if`, `while`, `loop`, and range `for`
 - arrays, structs, indexing, field access, and qualified module access
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
-- builtin stdlib modules for math, strings, parsing, files, IO, environment, paths, time, blocking IPv4 TCP, and process helpers
+- builtin stdlib modules for math, strings, parsing, files, IO, environment, paths, time, blocking IPv4 TCP/UDP, process helpers, and an experimental Linux-only `std.x11` window path
 
 ## What to read next
 

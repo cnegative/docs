@@ -14,9 +14,14 @@ The `cnegative` standard library is still intentionally small. It exists to make
 - `std.time` for basic timing
 - `std.net` for blocking IPv4 TCP/UDP plus a few text helpers
 - `std.process` for target/process helpers
+- `std.x11` for an experimental Linux-only real-window stress-test path
 
 ::: info not a giant runtime
 This is not a full batteries-included platform yet. The current stdlib is the first practical slice.
+:::
+
+::: warning experimental host module
+`std.x11` is intentionally tiny and Linux-only right now. It exists to stress-test real host window integration before a broader interop story exists.
 :::
 
 ## What is owned and what must be freed?
@@ -49,6 +54,7 @@ Current owned-string stdlib producers:
 3. [Files & IO](/stdlib/files-and-io)
 4. [Env, Path & Time](/stdlib/env-path-time)
 5. [Net](/stdlib/net)
+6. [X11](/stdlib/x11)
 
 ## Example
 

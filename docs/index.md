@@ -6,10 +6,10 @@ A minimal, hackable systems language for learning explicit low-level programming
 
 `cnegative` keeps manual control, reduces hidden behavior, and prefers words over symbolic shortcuts when that improves clarity. It compiles to native code through LLVM.
 
-The compiler ships today with structured diagnostics, parser recovery, typed IR lowering, typed IR optimization, LLVM IR emission, object + binary linking through the host Clang toolchain, and a small blocking TCP/UDP slice in `std.net`.
+The compiler ships today with structured diagnostics, parser recovery, typed IR lowering, typed IR optimization, LLVM IR emission, object + binary linking through the host Clang toolchain, a small blocking TCP/UDP slice in `std.net`, and an experimental Linux-only `std.x11` stress-test path for real windows.
 
 ::: info current status
-This is **v0.3.1**. The language and compiler are under active development. The surface is intentionally small.
+This is **v0.3.2**. The language and compiler are under active development. The surface is intentionally small.
 :::
 
 ## Core rules at a glance
@@ -56,8 +56,9 @@ hello, alice
 - arrays, structs, indexing, and field access
 - imports, qualified calls, qualified types, and qualified public constants
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
-- initial stdlib modules: `std.math`, `std.strings`, `std.parse`, `std.fs`, `std.io`, `std.time`, `std.env`, `std.path`, `std.net`, and `std.process`
+- initial stdlib modules: `std.math`, `std.strings`, `std.parse`, `std.fs`, `std.io`, `std.time`, `std.env`, `std.path`, `std.net`, `std.process`, and the experimental Linux-only `std.x11`
 - beginner-first blocking IPv4 TCP and UDP helpers in `std.net`
+- a tiny real-window stress-test path through the experimental Linux-only `std.x11`
 - typed IR dumps with simple optimization already applied
 - LLVM IR, object files, and linked binaries
 

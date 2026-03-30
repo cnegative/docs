@@ -11,6 +11,7 @@
 | E1003 | Invalid type syntax |
 | E1004 | Invalid character during lexing |
 | E1005 | Unterminated string literal |
+| E1006 | Invalid assignment target in statement syntax |
 
 ## Semantic errors (E3xxx)
 
@@ -44,6 +45,10 @@
 | E3026 | Cyclic module-level constant definition |
 | E3027 | Duplicate or conflicting top-level constant name |
 | E3028 | Integer literal is out of range for the target type |
+| E3029 | `if` expression branch does not produce a value |
+| E3030 | `if` expression branch types do not match |
+| E3031 | `addr` target is not addressable |
+| E3032 | `deref` requires a pointer value |
 
 ## Diagnostic style
 
