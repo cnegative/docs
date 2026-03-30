@@ -15,7 +15,7 @@ Go to [github.com/cnegative/cnegative/releases ↗](https://github.com/cnegative
 ## Linux
 
 ```shell
-unzip cnegc-v0.3.0-linux-x86_64.zip
+unzip cnegc-v0.3.1-linux-x86_64.zip
 mkdir -p "$HOME/.local/bin"
 cp release/cnegc/cnegc "$HOME/.local/bin/"
 chmod +x "$HOME/.local/bin/cnegc"
@@ -30,7 +30,7 @@ export PATH="$HOME/.local/bin:$PATH"
 ## macOS
 
 ```shell
-unzip cnegc-v0.3.0-macos-arm64.zip
+unzip cnegc-v0.3.1-macos-arm64.zip
 mkdir -p "$HOME/.local/bin"
 cp release/cnegc/cnegc "$HOME/.local/bin/"
 chmod +x "$HOME/.local/bin/cnegc"

@@ -14,7 +14,7 @@ cnegc build   examples/valid_basic.cneg
 
 - `int`, `u8`, `bool`, `str`, arrays, structs, `ptr`, and `result` types.
 - Local bindings with mutable reassignment.
-- Arithmetic and comparison operators.
+- Arithmetic and comparison operators, including integer `%`.
 - Short-circuit `&&` and `||`.
 - `if`, `while`, `loop`, and range `for`.
 - Local function calls and imported module function calls.
@@ -34,6 +34,8 @@ Owned runtime strings now come from `input()`, `str_copy(...)`, `str_concat(...)
 String equality uses `strcmp` — content-based, not pointer identity.
 
 `std.net` now includes blocking IPv4 TCP and UDP helpers as well as formatting/validation. `recv(...)` returns an owned runtime string, and successful `udp_recv_from(...)` returns a `std.net.UdpPacket` with owned `host` and `data` fields. Linux/macOS use POSIX/BSD sockets while Windows uses Winsock.
+
+`std.math` is still integer-only, but it now covers sign helpers, parity helpers, min/max/clamp/between, and number helpers such as `gcd`, `lcm`, and `distance`.
 
 `u8` lowers as LLVM `i8`, `byte` is parsed as an alias for `u8`, matching `u8` comparisons use unsigned predicates, and printing `u8` widens through the normal print runtime helper.
 

@@ -7,7 +7,7 @@ After semantic analysis, checked source is lowered to a structured typed IR befo
 - independent IR node types instead of reusing the parser AST
 - builtin primitive types currently include `int`, `u8`, `bool`, `str`, and `void`
 - canonical module-qualified function, struct, and public constant names
-- canonical module-qualified builtin stdlib calls such as `std.math.clamp(...)`, `std.strings.concat(...)`, `std.fs.file_size(...)`, `std.path.extension(...)`, `std.net.join_host_port(...)`, `std.net.udp_recv_from(...)`, and `std.process.platform(...)`
+- canonical module-qualified builtin stdlib calls such as `std.math.gcd(...)`, `std.strings.concat(...)`, `std.fs.file_size(...)`, `std.path.extension(...)`, `std.net.join_host_port(...)`, `std.net.udp_recv_from(...)`, and `std.process.platform(...)`
 - explicit return statements preserved from source
 - structured control flow preserved for `if`, `while`, `loop`, and range `for`
 - simple optimization passes run before backend lowering
@@ -41,7 +41,9 @@ let cwd:result str = std.fs.cwd();
 let endpoint:str = std.net.join_host_port("127.0.0.1", 8080);
 let packet:result std.net.UdpPacket = std.net.udp_recv_from(socket.value, 64);
 let parsed:result int = std.parse.to_int("42");
+let remainder:int = sample % 6;
 let bounded:int = std.math.clamp(99, 0, 7);
+let factor:int = std.math.gcd(54, 24);
 let platform:str = std.process.platform();
 ```
 

@@ -80,6 +80,7 @@ If a condition is not `bool`, the compiler reports `E3005`.
 ## Integer rule today
 
 - `int` is the general arithmetic type.
+- `int` currently supports `+`, `-`, `*`, `/`, and `%`.
 - `u8` is the byte-sized storage/value type.
 - `byte` is just another spelling of `u8`.
 - Integer literals fit into `u8` automatically when a `u8` is expected.

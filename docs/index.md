@@ -9,7 +9,7 @@ A minimal, hackable systems language for learning explicit low-level programming
 The compiler ships today with structured diagnostics, parser recovery, typed IR lowering, typed IR optimization, LLVM IR emission, object + binary linking through the host Clang toolchain, and a small blocking TCP/UDP slice in `std.net`.
 
 ::: info current status
-This is **v0.3.0**. The language and compiler are under active development. The surface is intentionally small.
+This is **v0.3.1**. The language and compiler are under active development. The surface is intentionally small.
 :::
 
 ## Core rules at a glance
