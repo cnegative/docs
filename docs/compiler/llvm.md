@@ -12,7 +12,7 @@ cnegc build   examples/valid_basic.cneg
 
 ## Supported lowering
 
-- `int`, `bool`, `str`, arrays, structs, `ptr`, and `result` types.
+- `int`, `u8`, `bool`, `str`, arrays, structs, `ptr`, and `result` types.
 - Local bindings with mutable reassignment.
 - Arithmetic and comparison operators.
 - Short-circuit `&&` and `||`.
@@ -28,11 +28,13 @@ cnegc build   examples/valid_basic.cneg
 ## Runtime notes
 
 ::: info owned strings
-`input()`, `str_copy(...)`, `str_concat(...)`, `std.io.read_line(...)`, `std.fs.read_text(...)`, `std.fs.cwd(...)`, `std.net.join_host_port(...)`, `std.process.platform(...)`, and `std.process.arch(...)` produce owned runtime strings. Use `free` to release them. Freeing string literals is a safe no-op.
+Owned runtime strings now come from `input()`, `str_copy(...)`, `str_concat(...)`, `std.io.read_line(...)`, `std.strings.copy(...)`, `std.strings.concat(...)`, successful `std.fs.read_text(...)`, successful `std.fs.cwd(...)`, successful `std.env.get(...)`, `std.path.join(...)`, `std.path.file_name(...)`, `std.path.stem(...)`, `std.path.extension(...)`, successful `std.path.parent(...)`, `std.net.join_host_port(...)`, successful `std.net.recv(...)`, the `host` and `data` fields from successful `std.net.udp_recv_from(...)`, `std.process.platform(...)`, and `std.process.arch(...)`. Use `free` to release them. Freeing string literals is a safe no-op.
 :::
 
 String equality uses `strcmp` — content-based, not pointer identity.
 
-`std.net` is currently a small formatting/validation layer, not a socket API.
+`std.net` now includes blocking IPv4 TCP and UDP helpers as well as formatting/validation. `recv(...)` returns an owned runtime string, and successful `udp_recv_from(...)` returns a `std.net.UdpPacket` with owned `host` and `data` fields. Linux/macOS use POSIX/BSD sockets while Windows uses Winsock.
+
+`u8` lowers as LLVM `i8`, `byte` is parsed as an alias for `u8`, matching `u8` comparisons use unsigned predicates, and printing `u8` widens through the normal print runtime helper.
 
 Unsupported lowering operations report `E3021` before any LLVM IR text is printed.

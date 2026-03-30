@@ -12,7 +12,7 @@ The `cnegative` standard library is still intentionally small. It exists to make
 - `std.env` for environment variables
 - `std.path` for path manipulation
 - `std.time` for basic timing
-- `std.net` for a very small network-adjacent helper surface
+- `std.net` for blocking IPv4 TCP/UDP plus a few text helpers
 - `std.process` for target/process helpers
 
 ::: info not a giant runtime
@@ -39,6 +39,8 @@ Current owned-string stdlib producers:
 - `std.path.extension(...)`
 - `std.path.parent(...)` on success
 - `std.net.join_host_port(...)`
+- `std.net.recv(...)` on success
+- the `host` and `data` fields from successful `std.net.udp_recv_from(...)`
 
 ## Recommended reading order
 
@@ -51,18 +53,19 @@ Current owned-string stdlib producers:
 ## Example
 
 ```cneg
-import std.strings as strings;
-import std.fs as fs;
+import std.net as net;
 
 fn:int main() {
-    let cwd:result str = fs.cwd();
-    if cwd.ok == false {
+    let listener:result int = net.tcp_listen("127.0.0.1", 34567);
+    if listener.ok == false {
         return 1;
     }
 
-    if cwd.ok {
-        print(strings.len(cwd.value));
-        free cwd.value;
+    if listener.ok {
+        let closed:result bool = net.close(listener.value);
+        if closed.ok == false {
+            return 2;
+        }
     }
 
     return 0;

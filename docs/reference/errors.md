@@ -43,6 +43,7 @@
 | E3025 | Module-level constant initializer uses a runtime-only operation |
 | E3026 | Cyclic module-level constant definition |
 | E3027 | Duplicate or conflicting top-level constant name |
+| E3028 | Integer literal is out of range for the target type |
 
 ## Diagnostic style
 

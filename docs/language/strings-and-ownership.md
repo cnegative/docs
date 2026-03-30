@@ -19,6 +19,22 @@ Right now, owned runtime strings come from:
 - `input()`
 - `str_copy(s)`
 - `str_concat(a, b)`
+- `std.io.read_line()`
+- `std.strings.copy(s)`
+- `std.strings.concat(a, b)`
+- `std.fs.read_text(path)` on success
+- `std.fs.cwd()` on success
+- `std.env.get(name)` on success
+- `std.path.join(...)`
+- `std.path.file_name(...)`
+- `std.path.stem(...)`
+- `std.path.extension(...)`
+- `std.path.parent(...)` on success
+- `std.net.join_host_port(...)`
+- `std.net.recv(...)` on success
+- the `host` and `data` fields from successful `std.net.udp_recv_from(...)`
+- `std.process.platform()`
+- `std.process.arch()`
 
 ## Example
 
@@ -46,7 +62,7 @@ fn:int main() {
 
 ## Ownership rule
 
-If a string came from `input()`, `str_copy(...)`, or `str_concat(...)`, it is owned runtime memory and should be released with `free`.
+If a string came from one of those runtime producers, it is owned runtime memory and should be released with `free`.
 
 If a string is a literal like `"hello"`, freeing it is a safe no-op in the current runtime.
 

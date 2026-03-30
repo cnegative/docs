@@ -6,10 +6,10 @@ A minimal, hackable systems language for learning explicit low-level programming
 
 `cnegative` keeps manual control, reduces hidden behavior, and prefers words over symbolic shortcuts when that improves clarity. It compiles to native code through LLVM.
 
-The compiler ships today with structured diagnostics, parser recovery, typed IR lowering, typed IR optimization, LLVM IR emission, and object + binary linking through the host Clang toolchain.
+The compiler ships today with structured diagnostics, parser recovery, typed IR lowering, typed IR optimization, LLVM IR emission, object + binary linking through the host Clang toolchain, and a small blocking TCP/UDP slice in `std.net`.
 
 ::: info current status
-This is **v0.2.1-dev**. The language and compiler are under active development. The surface is intentionally small.
+This is **v0.3.0**. The language and compiler are under active development. The surface is intentionally small.
 :::
 
 ## Core rules at a glance
@@ -50,12 +50,14 @@ hello, alice
 ## What exists today
 
 - explicit `fn`, `pfn`, `struct`, `pstruct`, `const`, and `pconst`
-- `int`, `bool`, `str`, `void`, `ptr T`, and `result T`
+- `int`, `u8`, `bool`, `str`, `void`, `ptr T`, and `result T`
+- `byte` as a readable alias for `u8`
 - `if`, `while`, `loop`, and range `for`
 - arrays, structs, indexing, and field access
 - imports, qualified calls, qualified types, and qualified public constants
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
 - initial stdlib modules: `std.math`, `std.strings`, `std.parse`, `std.fs`, `std.io`, `std.time`, `std.env`, `std.path`, `std.net`, and `std.process`
+- beginner-first blocking IPv4 TCP and UDP helpers in `std.net`
 - typed IR dumps with simple optimization already applied
 - LLVM IR, object files, and linked binaries
 

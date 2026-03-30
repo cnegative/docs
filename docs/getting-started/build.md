@@ -21,12 +21,15 @@ Build `cnegc` from source or use an existing binary. Covers prerequisites, build
 - `make` or CMake 3.20+
 - `clang-18` or `clang` in `PATH` for the full test suite
 - `bash` for `make test`
+- `python3` only if you want the optional blocking TCP or UDP integration tests
 
 ### With make
 
 ```shell
 make          # produces build/cnegc
 make test     # runs the full test suite
+make net-test # optional Python-based std.net integration test
+make udp-test # optional Python-based std.net UDP integration test
 ```
 
 ### With CMake
@@ -35,6 +38,13 @@ make test     # runs the full test suite
 cmake -S . -B out
 cmake --build out   # produces out/build/cnegc
 ctest --test-dir out --output-on-failure
+```
+
+If Python 3 is available:
+
+```shell
+cmake --build out --target net-test
+cmake --build out --target udp-test
 ```
 
 ::: tip llvm-as is optional
@@ -51,3 +61,7 @@ No source file may exceed 3 000 lines. Run `make check-lines` to verify before c
 - `ir` dumps typed IR after simple optimization and constant folding
 - `llvm-ir` shows the backend-ready LLVM text form
 - `obj` and `build` use the host `clang` driver after LLVM text generation
+
+::: tip optional network integration
+`make test` and the default CMake/CTest path stay deterministic and do not launch multi-process network binaries. Use `make net-test` / `cmake --build out --target net-test` for the real blocking TCP server/client integration check, or `make udp-test` / `cmake --build out --target udp-test` for the UDP path.
+:::

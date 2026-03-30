@@ -38,11 +38,12 @@ fn:int main() {
 ## Current implemented surface
 
 - `fn`, `pfn`, `struct`, `pstruct`, `const`, and `pconst`
-- `int`, `bool`, `str`, `void`, `ptr T`, and `result T`
+- `int`, `u8`, `bool`, `str`, `void`, `ptr T`, and `result T`
+- `byte` as a readable alias for `u8`
 - `if`, `while`, `loop`, and range `for`
 - arrays, structs, indexing, field access, and qualified module access
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
-- builtin stdlib modules for math, strings, parsing, files, IO, environment, paths, time, basic network formatting, and process helpers
+- builtin stdlib modules for math, strings, parsing, files, IO, environment, paths, time, blocking IPv4 TCP, and process helpers
 
 ## What to read next
 

@@ -7,11 +7,14 @@ Once declarations make sense, the next step is understanding the built-in types 
 | Type | Meaning |
 | --- | --- |
 | `int` | 64-bit signed integer |
+| `u8` | unsigned 8-bit byte-sized integer |
 | `bool` | `true` or `false` |
 | `str` | string value |
 | `void` | no return value |
 | `ptr T` | pointer to `T` |
 | `result T` | fallible value |
+
+`byte` is a source-level alias for `u8`.
 
 ## If and else
 
@@ -73,6 +76,15 @@ loop {
 ::: warning explicit conditions only
 If a condition is not `bool`, the compiler reports `E3005`.
 :::
+
+## Integer rule today
+
+- `int` is the general arithmetic type.
+- `u8` is the byte-sized storage/value type.
+- `byte` is just another spelling of `u8`.
+- Integer literals fit into `u8` automatically when a `u8` is expected.
+- Arithmetic still stays `int`-only for now.
+- Equality and ordered comparisons work for matching `u8` values.
 
 ## Next step
 
