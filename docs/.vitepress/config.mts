@@ -58,6 +58,7 @@ export default defineConfig({
           { text: 'Overview', link: '/stdlib/overview' },
           { text: 'Strings & Parse', link: '/stdlib/strings-and-parse' },
           { text: 'Files & IO', link: '/stdlib/files-and-io' },
+          { text: 'Terminal', link: '/stdlib/term' },
           { text: 'Math & Process', link: '/stdlib/math-and-process' },
           { text: 'Env, Path & Time', link: '/stdlib/env-path-time' },
           { text: 'Net', link: '/stdlib/net' },
@@ -82,7 +83,7 @@ export default defineConfig({
       }
     ],
     footer: {
-      message: 'cnegative docs track the current v0.3.2 compiler surface.',
+      message: 'cnegative docs track the current v0.4.0 compiler surface.',
       copyright: 'Apache-2.0'
     },
     socialLinks: [

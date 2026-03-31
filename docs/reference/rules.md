@@ -14,7 +14,7 @@ Enforced rules that keep the compiler codebase consistent and auditable.
 ## Enforced checks
 
 ```shell
-make check-lines  # rejects files over the 3000-line cap
+make check-lines  # rejects files over the 5000-line cap
 ```
 
 The compiler uses a tracked allocator and prints live allocations on shutdown if any memory is left unreleased.

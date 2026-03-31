@@ -7,7 +7,7 @@ A minimal, hackable systems language for learning explicit low-level programming
 It keeps the surface small, makes rules visible, and avoids hidden behavior where possible.
 
 ::: info current status
-This is **v0.3.2**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
+This is **v0.4.0**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
 :::
 
 ## Who this is for
@@ -58,6 +58,7 @@ If you are just learning the language, you can safely ignore these on your first
 
 - LLVM IR
 - typed IR
+- `std.term` low-level terminal control, timed key/mouse/resize/paste events, capability queries, styles, and diff rendering
 - `std.x11`
 - TCP/UDP helpers in `std.net`
 - release/build pipeline details
@@ -105,7 +106,7 @@ What is happening here:
 - arrays, structs, indexing, and field access
 - imports, qualified calls, qualified types, and qualified public constants
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
-- stdlib modules for math, strings, parsing, files, IO, env, paths, time, networking, process helpers, and the experimental Linux-only `std.x11`
+- stdlib modules for math, strings, parsing, files, IO, terminal control, env, paths, time, networking, process helpers, and the experimental Linux-only `std.x11`
 - typed IR, LLVM IR, object generation, and linked binaries
 
 ## Platform support

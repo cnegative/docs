@@ -12,10 +12,11 @@ Read in this order:
 
 1. [Strings & Parse](/stdlib/strings-and-parse)
 2. [Files & IO](/stdlib/files-and-io)
-3. [Math & Process](/stdlib/math-and-process)
-4. [Env, Path & Time](/stdlib/env-path-time)
-5. [Net](/stdlib/net)
-6. [X11](/stdlib/x11)
+3. [Terminal](/stdlib/term)
+4. [Math & Process](/stdlib/math-and-process)
+5. [Env, Path & Time](/stdlib/env-path-time)
+6. [Net](/stdlib/net)
+7. [X11](/stdlib/x11)
 
 That order goes from “ordinary small programs” to “host/platform experiments”.
 
@@ -26,6 +27,7 @@ That order goes from “ordinary small programs” to “host/platform experimen
 - `std.parse` for turning text into typed values
 - `std.fs` for file and directory work
 - `std.io` for simple terminal input and output
+- `std.term` for low-level terminal control, capability queries, timed key/mouse/resize/paste events, styles, and buffer diff rendering
 - `std.env` for environment variables
 - `std.path` for path manipulation
 - `std.time` for basic timing
@@ -54,6 +56,8 @@ Current owned-string stdlib producers include:
 - `std.fs.read_text(...)` on success
 - `std.fs.cwd(...)` on success
 - `std.io.read_line()`
+- `std.term.read_paste(...)` on success
+- `std.term.term_name(...)` on success
 - `std.env.get(...)` on success
 - `std.path.join(...)`
 - `std.path.file_name(...)`
@@ -63,6 +67,8 @@ Current owned-string stdlib producers include:
 - `std.net.join_host_port(...)`
 - `std.net.recv(...)` on success
 - the `host` and `data` fields from successful `std.net.udp_recv_from(...)`
+- `std.process.platform(...)`
+- `std.process.arch(...)`
 
 ## Beginner recommendation
 
@@ -73,7 +79,7 @@ If you are writing your first few programs, start with:
 - `std.fs`
 - `std.parse`
 
-You can ignore `std.net` and `std.x11` until the basics feel comfortable.
+You can ignore `std.term`, `std.net`, and `std.x11` until the basics feel comfortable.
 
 ## Tiny example
 
