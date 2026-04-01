@@ -22,6 +22,19 @@ That literal is part of the program itself.
 
 You can pass it around and compare it, but it is not the same thing as a heap-created runtime string.
 
+There is now a second literal form for longer text:
+
+```cneg
+let banner:str = `cnegative
+rocks`;
+```
+
+Use backticks when you want:
+
+- multiline text
+- text kept exactly as written
+- no escape processing inside the literal
+
 ## What is an owned string?
 
 An owned string is a string value that the runtime created for you.
@@ -87,6 +100,7 @@ Right now, owned runtime strings come from:
 - `std.io.read_line()`
 - `std.strings.copy(s)`
 - `std.strings.concat(a, b)`
+- `std.text.build(builder)` on success
 - `std.fs.read_text(path)` on success
 - `std.fs.cwd()` on success
 - `std.env.get(name)` on success

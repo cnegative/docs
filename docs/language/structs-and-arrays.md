@@ -7,6 +7,10 @@ This page covers two ideas:
 - a **struct** groups named fields
 - an **array** groups many values of the same type
 
+It also introduces a third related tool:
+
+- a **slice** is a view over contiguous values that already exist somewhere else
+
 ## Structs
 
 Use a struct when one value needs several named pieces inside it.
@@ -71,6 +75,44 @@ let mut xs:int[3] = [1, 2, 3];
 xs[1] = 10;
 ```
 
+## Slices
+
+Use a slice when you want to look at array-style data without making a new fixed-size array type.
+
+```cneg
+fn:int sum(xs:slice int) {
+    return xs[0] + xs[1] + xs.length;
+}
+```
+
+Read that as:
+
+- `slice int` means “view of contiguous `int` values”
+- `xs.length` is the current length of that view
+- `xs[0]` uses the same indexing syntax as arrays
+
+In the current language, arrays can be used where a matching slice is expected:
+
+```cneg
+fn:int sum(xs:slice int) {
+    return xs[0] + xs[1] + xs.length;
+}
+
+fn:int main() {
+    let data:int[4] = [3, 4, 5, 6];
+    let view:slice int = data;
+    return sum(data) + view[2];
+}
+```
+
+Current first-pass slice rules:
+
+- a slice does not own memory by itself
+- arrays can become slices when the element type matches
+- slices currently expose `.length`
+- slices support indexing
+- slices support subslicing with `xs[start..end]`, `xs[..end]`, and `xs[start..]`
+
 ## When to use which?
 
 Use a struct when:
@@ -84,6 +126,12 @@ Use an array when:
 - every item has the same type
 - order matters more than names
 - you want code like `values[2]`
+
+Use a slice when:
+
+- another value already owns the contiguous data
+- you want to pass “array-like data” to a function
+- you want length + indexing without hard-coding the array size into the parameter type
 
 ## One small example with both
 
@@ -142,7 +190,8 @@ Only indexable values can use `[index]`.
 - struct field names must exist
 - struct field values must match the field type
 - array literal size must match the declared length
-- indexing only works on indexable values
+- indexing only works on arrays and slices
+- slice field access is currently limited to `.length`
 
 ## Next step
 

@@ -56,8 +56,47 @@ Important rule:
 - `.value` can only be read after proving the result is ok
 
 ::: warning guarded result access
-Using `r.value` without a proven-ok guard reports `E3024`.
+Using `r.value` without a proven-ok check reports `E3024`.
 :::
+
+### Another valid proof pattern
+
+This also works:
+
+```cneg
+fn:int main() {
+    let r:result int = divide(10, 2);
+
+    if r.ok == false {
+        return 1;
+    }
+
+    print(r.value);
+    return 0;
+}
+```
+
+The compiler now understands both:
+
+- `if r.ok { ... }`
+- `if r.ok == false { return err; }` or `return 1;` style checks before later `.value`
+
+### `try` for unwrap-or-return
+
+When you are already inside a `result ...` function, `try` is the shorter pattern:
+
+```cneg
+fn:result int plus_one(a:int, b:int) {
+    try value = divide(a, b);
+    return ok (value + 1);
+}
+```
+
+Simple meaning:
+
+- call something that returns `result T`
+- if it failed, return `err`
+- if it worked, keep the inner `T` as a normal local binding
 
 ### Beginner mental model
 
@@ -114,6 +153,24 @@ This is the basic rule:
 ::: warning `free` is explicit
 If you allocate heap memory yourself, you are responsible for freeing it.
 :::
+
+## One small stdlib note
+
+Not every heap-backed thing is released with raw `free`.
+
+Some stdlib modules manage their own heap-owned objects and give you a module-level release function instead. Right now the clearest examples are:
+
+- `std.bytes.release(buffer)`
+- `std.text.release(builder)`
+
+Use raw `free` for:
+
+- heap pointers from `alloc`
+- owned strings returned by the runtime
+
+Use module `release(...)` functions for:
+
+- stdlib-owned buffer or builder objects
 
 ## Beginner rule of thumb
 

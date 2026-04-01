@@ -59,6 +59,7 @@ If you are just learning the language, you can safely ignore these on your first
 - LLVM IR
 - typed IR
 - `std.term` low-level terminal control, timed key/mouse/resize/paste events, capability queries, styles, and diff rendering
+- `std.bytes` and `std.text` for growable byte buffers and text builders on top of core slices
 - `std.x11`
 - TCP/UDP helpers in `std.net`
 - release/build pipeline details
@@ -100,7 +101,7 @@ What is happening here:
 ## What exists today
 
 - `fn`, `pfn`, `struct`, `pstruct`, `const`, and `pconst`
-- `int`, `u8`, `bool`, `str`, `void`, `ptr T`, and `result T`
+- `int`, `u8`, `bool`, `str`, `void`, `ptr T`, `result T`, and `slice T`
 - `byte` as a readable alias for `u8`
 - `if`, `while`, `loop`, range `for`, and narrow `if` expressions
 - arrays, structs, indexing, and field access

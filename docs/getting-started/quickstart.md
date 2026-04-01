@@ -136,7 +136,7 @@ fn:int main() {
 ```
 
 ::: warning `.value` is guarded on purpose
-Using `r.value` without a preceding `if r.ok` guard reports `E3024`.
+Using `r.value` without a preceding `if r.ok` check reports `E3024`.
 :::
 
 ## Strings in one sentence

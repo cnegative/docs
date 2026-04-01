@@ -138,10 +138,19 @@ This part is intentionally simple:
 
 - `term.codepoint_width(int) -> int`
 - `term.string_width(str) -> int`
+- `term.decode_codepoint(str, int) -> result int`
+- `term.next_codepoint_offset(str, int) -> result int`
 
 These helpers are useful when you want to do terminal layout math and not just count bytes.
 
 That matters because terminal width is about displayed columns, not source bytes.
+
+The two decode helpers matter if you want to build text renderers in `cnegative` itself:
+
+- `decode_codepoint(text, offset)` gives you the codepoint at a byte offset
+- `next_codepoint_offset(text, offset)` tells you where the next codepoint starts
+
+That is the bridge between raw UTF-8 strings and higher-level TUI drawing code.
 
 ### Screen buffers
 
@@ -406,6 +415,7 @@ The current slice includes:
 - bracketed paste reads
 - style and color helpers
 - width helpers
+- UTF-8 stepping helpers for higher-level text drawing
 - cell and buffer types
 - buffer resize
 - diff-based rendering
@@ -414,10 +424,12 @@ The current slice includes:
 Not here yet:
 
 - layout primitives
-- boxes and borders
-- text drawing helpers
-- wrapped text helpers
-- full widget primitives
+- full widget primitives inside `std.term` itself
+
+What changed recently is the layering:
+
+- `std.term` still stays low-level
+- higher-level terminal libraries can build on top of it later
 
 ::: warning low-level module
 `std.term` is still a primitive layer. It does not give you layouts, widgets, panels, or a full-screen app framework yet.

@@ -11,19 +11,22 @@ If you are new, do not try to read every module in one pass.
 Read in this order:
 
 1. [Strings & Parse](/stdlib/strings-and-parse)
-2. [Files & IO](/stdlib/files-and-io)
-3. [Terminal](/stdlib/term)
-4. [Math & Process](/stdlib/math-and-process)
-5. [Env, Path & Time](/stdlib/env-path-time)
-6. [Net](/stdlib/net)
-7. [X11](/stdlib/x11)
+2. [Bytes & Text](/stdlib/bytes-and-text)
+3. [Files & IO](/stdlib/files-and-io)
+4. [Terminal](/stdlib/term)
+5. [Math & Process](/stdlib/math-and-process)
+6. [Env, Path & Time](/stdlib/env-path-time)
+7. [Net](/stdlib/net)
+8. [X11](/stdlib/x11)
 
 That order goes from “ordinary small programs” to “host/platform experiments”.
 
 ## Current modules
 
 - `std.math` for small integer helpers
+- `std.bytes` for growable byte buffers
 - `std.strings` for string helpers
+- `std.text` for growable text builders
 - `std.parse` for turning text into typed values
 - `std.fs` for file and directory work
 - `std.io` for simple terminal input and output
@@ -53,6 +56,7 @@ Current owned-string stdlib producers include:
 - `std.process.arch(...)`
 - `std.strings.copy(...)`
 - `std.strings.concat(...)`
+- `std.text.build(...)` on success
 - `std.fs.read_text(...)` on success
 - `std.fs.cwd(...)` on success
 - `std.io.read_line()`
@@ -67,8 +71,6 @@ Current owned-string stdlib producers include:
 - `std.net.join_host_port(...)`
 - `std.net.recv(...)` on success
 - the `host` and `data` fields from successful `std.net.udp_recv_from(...)`
-- `std.process.platform(...)`
-- `std.process.arch(...)`
 
 ## Beginner recommendation
 
@@ -80,6 +82,8 @@ If you are writing your first few programs, start with:
 - `std.parse`
 
 You can ignore `std.term`, `std.net`, and `std.x11` until the basics feel comfortable.
+
+One extra repo-level note: `std.term` is the foundation for future higher-level TUI libraries. It stays low-level on purpose so those libraries can sit on top cleanly.
 
 ## Tiny example
 

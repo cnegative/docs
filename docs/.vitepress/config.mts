@@ -57,6 +57,7 @@ export default defineConfig({
         items: [
           { text: 'Overview', link: '/stdlib/overview' },
           { text: 'Strings & Parse', link: '/stdlib/strings-and-parse' },
+          { text: 'Bytes & Text', link: '/stdlib/bytes-and-text' },
           { text: 'Files & IO', link: '/stdlib/files-and-io' },
           { text: 'Terminal', link: '/stdlib/term' },
           { text: 'Math & Process', link: '/stdlib/math-and-process' },
