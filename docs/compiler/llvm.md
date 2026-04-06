@@ -22,7 +22,7 @@ cnegc build   examples/valid_basic.cneg
 - Struct literals, array literals, field access, indexing.
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, guarded `.value`.
 - `print(...)`, `input()`, `str_copy(...)`, `str_concat(...)`, and string equality via embedded runtime helpers.
-- `std.math`, `std.bytes`, `std.strings`, `std.text`, `std.parse`, `std.fs`, `std.io`, `std.term`, `std.time`, `std.env`, `std.path`, `std.net`, `std.process`, and the experimental Linux-only `std.x11` through embedded runtime helpers.
+- `std.math`, `std.bytes`, `std.lines`, `std.strings`, `std.text`, `std.parse`, `std.fs`, `std.io`, `std.term`, `std.time`, `std.env`, `std.path`, `std.net`, `std.process`, and the experimental Linux-only `std.x11` through embedded runtime helpers.
 - Host-native target triple — not hardcoded to Linux.
 
 ## Runtime notes
@@ -36,6 +36,8 @@ String equality uses `strcmp` — content-based, not pointer identity.
 `std.net` now includes blocking IPv4 TCP and UDP helpers as well as formatting/validation. `recv(...)` returns an owned runtime string, and successful `udp_recv_from(...)` returns a `std.net.UdpPacket` with owned `host` and `data` fields. Linux/macOS use POSIX/BSD sockets while Windows uses Winsock.
 
 `std.bytes` lowers to a growable byte-buffer runtime layer. `Buffer` is a heap-owned container with `new`, `with_capacity`, `release`, `clear`, `length`, `capacity`, `push`, `append`, `get`, `set`, and `view` helpers. `view(...)` returns a non-owning `slice u8` over current contents.
+
+`std.lines` lowers to a growable line-buffer runtime layer. `Buffer` owns duplicated line strings internally, `get(...)` returns a borrowed `str` view into that storage, and `set(...)`, `push(...)`, `insert(...)`, and `remove(...)` lower to runtime helpers that duplicate and shift lines for you.
 
 `std.text` lowers to a text-builder layer on top of that byte runtime. `Builder` has the same storage shape, but `append(...)` copies bytes from a `str`, `push_byte(...)` appends one byte, `view(...)` returns a `slice u8`, and `build(...)` returns a new owned `str`.
 

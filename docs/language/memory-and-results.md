@@ -161,6 +161,7 @@ Not every heap-backed thing is released with raw `free`.
 Some stdlib modules manage their own heap-owned objects and give you a module-level release function instead. Right now the clearest examples are:
 
 - `std.bytes.release(buffer)`
+- `std.lines.release(buffer)`
 - `std.text.release(builder)`
 
 Use raw `free` for:

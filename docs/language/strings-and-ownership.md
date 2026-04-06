@@ -115,6 +115,12 @@ Right now, owned runtime strings come from:
 - `std.process.platform()`
 - `std.process.arch()`
 
+`std.lines.get(buffer, index)` is different:
+
+- it returns a borrowed line owned by the line buffer
+- do not `free` it
+- it stops being safe to keep after `set`, `remove`, `clear`, or `release`
+
 ::: tip you do not need to memorize the full list
 The practical beginner rule is enough:
 if the runtime created a new string for you, free it when you are done.

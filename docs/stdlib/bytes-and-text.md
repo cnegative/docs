@@ -1,6 +1,6 @@
-# Bytes & Text
+# Bytes, Text & Lines
 
-These two modules are the first practical dynamic-storage layer in `cnegative`.
+These modules are the first practical dynamic-storage layer in `cnegative`.
 
 They matter because fixed arrays and plain string literals stop being enough once you start building:
 
@@ -13,9 +13,10 @@ They matter because fixed arrays and plain string literals stop being enough onc
 ## The short split
 
 - `std.bytes` is for growable raw bytes
+- `std.lines` is for growable owned lines of text
 - `std.text` is for building text and turning it into a final owned `str`
 
-If you are new, read `std.text` first and come back to `std.bytes` when you start caring about raw byte data.
+If you are new, read `std.text` first, then `std.lines`, then come back to `std.bytes` when you start caring about raw byte data.
 
 ## `std.bytes`
 
@@ -133,6 +134,67 @@ fn:result int run() {
 }
 ```
 
+## `std.lines`
+
+```cneg
+import std.lines as lines;
+```
+
+`std.lines.Buffer` is a heap-owned growable list of lines.
+
+Current API:
+
+- `lines.Buffer { data:ptr str; length:int; capacity:int }`
+- `lines.new() -> result ptr lines.Buffer`
+- `lines.with_capacity(int) -> result ptr lines.Buffer`
+- `lines.release(ptr lines.Buffer) -> result bool`
+- `lines.clear(ptr lines.Buffer) -> result bool`
+- `lines.length(ptr lines.Buffer) -> int`
+- `lines.capacity(ptr lines.Buffer) -> int`
+- `lines.get(ptr lines.Buffer, int) -> result str`
+- `lines.set(ptr lines.Buffer, int, str) -> result bool`
+- `lines.push(ptr lines.Buffer, str) -> result bool`
+- `lines.insert(ptr lines.Buffer, int, str) -> result bool`
+- `lines.remove(ptr lines.Buffer, int) -> result bool`
+
+### What to notice
+
+- the buffer owns copies of inserted lines
+- `lines.release(...)` frees that owned storage
+- `lines.get(...)` returns a borrowed `str`
+- do not `free` the result of `lines.get(...)`
+- that borrowed string stops being valid after `set`, `remove`, `clear`, or `release`
+
+### Small example
+
+```cneg
+import std.io as io;
+import std.lines as lines;
+
+fn:result int run() {
+    try buffer = lines.new();
+
+    if lines.push(buffer, "alpha").ok == false {
+        lines.release(buffer);
+        return err;
+    }
+    if lines.insert(buffer, 1, "beta").ok == false {
+        lines.release(buffer);
+        return err;
+    }
+
+    let picked:result str = lines.get(buffer, 0);
+    if picked.ok == false {
+        lines.release(buffer);
+        return err;
+    }
+
+    io.write_line(picked.value);
+    lines.release(buffer);
+    return ok 0;
+}
+```
+
 ## Beginner recommendation
 
 Learn these first:
@@ -140,9 +202,12 @@ Learn these first:
 1. `text.new()`
 2. `text.append(...)`
 3. `text.build(...)`
-4. `bytes.new()`
-5. `bytes.append(...)`
-6. `bytes.view(...)`
+4. `lines.new()`
+5. `lines.push(...)`
+6. `lines.get(...)`
+7. `bytes.new()`
+8. `bytes.append(...)`
+9. `bytes.view(...)`
 
 That is enough to understand the model without turning this into a full collections course.
 
@@ -152,6 +217,7 @@ Think of the stack like this:
 
 - `slice T` is the core language view type
 - `std.bytes.Buffer` is growable owned byte storage
+- `std.lines.Buffer` is growable owned line storage
 - `std.text.Builder` is text building on top of growable bytes
 
-That is why these modules are important: they are the first place where slices become practical for real apps.
+That is why these modules are important: they are the first place where slices and growable runtime storage become practical for real apps.

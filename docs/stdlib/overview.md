@@ -11,7 +11,7 @@ If you are new, do not try to read every module in one pass.
 Read in this order:
 
 1. [Strings & Parse](/stdlib/strings-and-parse)
-2. [Bytes & Text](/stdlib/bytes-and-text)
+2. [Bytes, Text & Lines](/stdlib/bytes-and-text)
 3. [Files & IO](/stdlib/files-and-io)
 4. [Terminal](/stdlib/term)
 5. [Math & Process](/stdlib/math-and-process)
@@ -25,6 +25,7 @@ That order goes from “ordinary small programs” to “host/platform experimen
 
 - `std.math` for small integer helpers
 - `std.bytes` for growable byte buffers
+- `std.lines` for growable line storage
 - `std.strings` for string helpers
 - `std.text` for growable text builders
 - `std.parse` for turning text into typed values
@@ -83,7 +84,7 @@ If you are writing your first few programs, start with:
 
 You can ignore `std.term`, `std.net`, and `std.x11` until the basics feel comfortable.
 
-One extra repo-level note: `std.term` is the foundation for future higher-level TUI libraries. It stays low-level on purpose so those libraries can sit on top cleanly.
+One extra repo-level note: `std.term` is the foundation for future higher-level TUI libraries. `std.lines` is one of the data-layer pieces that can sit under editor-style apps built on top of it.
 
 ## Tiny example
 

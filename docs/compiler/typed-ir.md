@@ -8,7 +8,7 @@ After semantic analysis, checked source is lowered to a structured typed IR befo
 - builtin primitive types currently include `int`, `u8`, `bool`, `str`, and `void`
 - composite types currently include arrays, `ptr T`, `result T`, and `slice T`
 - canonical module-qualified function, struct, and public constant names
-- canonical module-qualified builtin stdlib calls such as `std.math.gcd(...)`, `std.bytes.append(...)`, `std.strings.concat(...)`, `std.text.build(...)`, `std.fs.file_size(...)`, `std.path.extension(...)`, `std.net.join_host_port(...)`, `std.net.udp_recv_from(...)`, and `std.process.platform(...)`
+- canonical module-qualified builtin stdlib calls such as `std.math.gcd(...)`, `std.bytes.append(...)`, `std.lines.insert(...)`, `std.strings.concat(...)`, `std.text.build(...)`, `std.fs.file_size(...)`, `std.path.extension(...)`, `std.net.join_host_port(...)`, `std.net.udp_recv_from(...)`, and `std.process.platform(...)`
 - explicit return statements preserved from source
 - structured control flow preserved for `if`, `while`, `loop`, and range `for`
 - simple optimization passes run before backend lowering

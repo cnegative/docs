@@ -64,7 +64,7 @@ That order is intentional. It moves from “ordinary code” into “systems cod
 - arrays, slices, structs, indexing, field access, and qualified module access
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
 - raw backtick strings for multiline text without escape processing
-- builtin stdlib modules for math, strings, parsing, files, IO, low-level terminal control, environment, paths, time, blocking IPv4 TCP/UDP, process helpers, and an experimental Linux-only `std.x11` window path
+- builtin stdlib modules for math, growable bytes/lines/text storage, strings, parsing, files, IO, low-level terminal control, environment, paths, time, blocking IPv4 TCP/UDP, process helpers, and an experimental Linux-only `std.x11` window path
 
 ## What to ignore on your first pass
 
