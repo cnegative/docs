@@ -14,7 +14,7 @@ Read in this order:
 2. [Bytes, Text & Lines](/stdlib/bytes-and-text)
 3. [Files & IO](/stdlib/files-and-io)
 4. [Terminal](/stdlib/term)
-5. [Math & Process](/stdlib/math-and-process)
+5. [Math, Process & IPC](/stdlib/math-and-process)
 6. [Env, Path & Time](/stdlib/env-path-time)
 7. [Net](/stdlib/net)
 8. [X11](/stdlib/x11)
@@ -25,6 +25,7 @@ That order goes from “ordinary small programs” to “host/platform experimen
 
 - `std.math` for small integer helpers
 - `std.bytes` for growable byte buffers
+- `std.ipc` for text-first child-process IPC
 - `std.lines` for growable line storage
 - `std.strings` for string helpers
 - `std.text` for growable text builders
@@ -55,6 +56,11 @@ Current owned-string stdlib producers include:
 
 - `std.process.platform(...)`
 - `std.process.arch(...)`
+- `std.ipc.stdout_read(...)` on success
+- `std.ipc.stdout_read_line(...)` on success
+- `std.ipc.request_line(...)` on success
+- `std.ipc.stderr_read(...)` on success
+- `std.ipc.stderr_read_line(...)` on success
 - `std.strings.copy(...)`
 - `std.strings.concat(...)`
 - `std.text.build(...)` on success
@@ -82,7 +88,7 @@ If you are writing your first few programs, start with:
 - `std.fs`
 - `std.parse`
 
-You can ignore `std.term`, `std.net`, and `std.x11` until the basics feel comfortable.
+You can ignore `std.term`, `std.net`, `std.ipc`, and `std.x11` until the basics feel comfortable.
 
 One extra repo-level note: `std.term` is the foundation for future higher-level TUI libraries. `std.lines` is one of the data-layer pieces that can sit under editor-style apps built on top of it.
 

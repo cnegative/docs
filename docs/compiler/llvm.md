@@ -22,13 +22,13 @@ cnegc build   examples/valid_basic.cneg
 - Struct literals, array literals, field access, indexing.
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, guarded `.value`.
 - `print(...)`, `input()`, `str_copy(...)`, `str_concat(...)`, and string equality via embedded runtime helpers.
-- `std.math`, `std.bytes`, `std.lines`, `std.strings`, `std.text`, `std.parse`, `std.fs`, `std.io`, `std.term`, `std.time`, `std.env`, `std.path`, `std.net`, `std.process`, and the experimental Linux-only `std.x11` through embedded runtime helpers.
+- `std.math`, `std.bytes`, `std.ipc`, `std.lines`, `std.strings`, `std.text`, `std.parse`, `std.fs`, `std.io`, `std.term`, `std.time`, `std.env`, `std.path`, `std.net`, `std.process`, and the experimental Linux-only `std.x11` through embedded runtime helpers.
 - Host-native target triple — not hardcoded to Linux.
 
 ## Runtime notes
 
 ::: info owned strings
-Owned runtime strings now come from `input()`, `str_copy(...)`, `str_concat(...)`, `std.io.read_line(...)`, `std.strings.copy(...)`, `std.strings.concat(...)`, successful `std.text.build(...)`, successful `std.term.read_paste(...)`, successful `std.term.term_name(...)`, successful `std.fs.read_text(...)`, successful `std.fs.cwd(...)`, successful `std.env.get(...)`, `std.path.join(...)`, `std.path.file_name(...)`, `std.path.stem(...)`, `std.path.extension(...)`, successful `std.path.parent(...)`, `std.net.join_host_port(...)`, successful `std.net.recv(...)`, the `host` and `data` fields from successful `std.net.udp_recv_from(...)`, `std.process.platform(...)`, and `std.process.arch(...)`. Use `free` to release them. Freeing string literals is a safe no-op.
+Owned runtime strings now come from `input()`, `str_copy(...)`, `str_concat(...)`, `std.io.read_line(...)`, `std.strings.copy(...)`, `std.strings.concat(...)`, successful `std.text.build(...)`, successful `std.term.read_paste(...)`, successful `std.term.term_name(...)`, successful `std.fs.read_text(...)`, successful `std.fs.cwd(...)`, successful `std.env.get(...)`, `std.path.join(...)`, `std.path.file_name(...)`, `std.path.stem(...)`, `std.path.extension(...)`, successful `std.path.parent(...)`, `std.net.join_host_port(...)`, successful `std.net.recv(...)`, the `host` and `data` fields from successful `std.net.udp_recv_from(...)`, successful `std.ipc.stdout_read(...)`, successful `std.ipc.stdout_read_line(...)`, successful `std.ipc.request_line(...)`, successful `std.ipc.stderr_read(...)`, successful `std.ipc.stderr_read_line(...)`, `std.process.platform(...)`, and `std.process.arch(...)`. Use `free` to release them. Freeing string literals is a safe no-op.
 :::
 
 String equality uses `strcmp` — content-based, not pointer identity.
@@ -36,6 +36,8 @@ String equality uses `strcmp` — content-based, not pointer identity.
 `std.net` now includes blocking IPv4 TCP and UDP helpers as well as formatting/validation. `recv(...)` returns an owned runtime string, and successful `udp_recv_from(...)` returns a `std.net.UdpPacket` with owned `host` and `data` fields. Linux/macOS use POSIX/BSD sockets while Windows uses Winsock.
 
 `std.bytes` lowers to a growable byte-buffer runtime layer. `Buffer` is a heap-owned container with `new`, `with_capacity`, `release`, `clear`, `length`, `capacity`, `push`, `append`, `get`, `set`, and `view` helpers. `view(...)` returns a non-owning `slice u8` over current contents.
+
+`std.ipc` lowers in two layers. Thin LLVM wrappers stay in the emitted module, and an embedded native helper object is compiled and linked automatically only when the program uses `std.ipc`. That helper owns cross-platform child-process spawn, stdin/stdout/stderr pipes, blocking text reads/writes, blocking line reads/writes for newline-delimited protocols, a thin request-line wrapper for one-request/one-response tools, plus wait, kill, and release.
 
 `std.lines` lowers to a growable line-buffer runtime layer. `Buffer` owns duplicated line strings internally, `get(...)` returns a borrowed `str` view into that storage, and `set(...)`, `push(...)`, `insert(...)`, and `remove(...)` lower to runtime helpers that duplicate and shift lines for you.
 

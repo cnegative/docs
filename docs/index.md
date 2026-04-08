@@ -107,7 +107,7 @@ What is happening here:
 - arrays, structs, indexing, and field access
 - imports, qualified calls, qualified types, and qualified public constants
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
-- stdlib modules for math, bytes, lines, strings, parsing, files, IO, terminal control, env, paths, time, networking, process helpers, and the experimental Linux-only `std.x11`
+- stdlib modules for math, bytes, IPC, lines, strings, parsing, files, IO, terminal control, env, paths, time, networking, process helpers, and the experimental Linux-only `std.x11`
 - typed IR, LLVM IR, object generation, and linked binaries
 
 ## Platform support

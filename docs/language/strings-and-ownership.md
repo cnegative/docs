@@ -112,6 +112,11 @@ Right now, owned runtime strings come from:
 - `std.net.join_host_port(...)`
 - `std.net.recv(...)` on success
 - the `host` and `data` fields from successful `std.net.udp_recv_from(...)`
+- `std.ipc.stdout_read(...)` on success
+- `std.ipc.stdout_read_line(...)` on success
+- `std.ipc.request_line(...)` on success
+- `std.ipc.stderr_read(...)` on success
+- `std.ipc.stderr_read_line(...)` on success
 - `std.process.platform()`
 - `std.process.arch()`
 

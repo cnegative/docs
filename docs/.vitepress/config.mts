@@ -60,7 +60,7 @@ export default defineConfig({
           { text: 'Bytes, Text & Lines', link: '/stdlib/bytes-and-text' },
           { text: 'Files & IO', link: '/stdlib/files-and-io' },
           { text: 'Terminal', link: '/stdlib/term' },
-          { text: 'Math & Process', link: '/stdlib/math-and-process' },
+          { text: 'Math, Process & IPC', link: '/stdlib/math-and-process' },
           { text: 'Env, Path & Time', link: '/stdlib/env-path-time' },
           { text: 'Net', link: '/stdlib/net' },
           { text: 'X11', link: '/stdlib/x11' }
