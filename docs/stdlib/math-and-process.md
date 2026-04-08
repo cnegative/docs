@@ -142,7 +142,7 @@ fn:result str python_program() {
     let platform:str = process.platform();
     if strings.eq(platform, "windows") {
         free platform;
-        return ok "python";
+        return ok "python.exe";
     }
     free platform;
     return ok "python3";
@@ -152,13 +152,7 @@ fn:result int run() {
     try program = python_program();
     let args:str[2] = [
         "-c",
-        `import json
-import sys
-
-line = sys.stdin.readline()
-data = json.loads(line)
-sys.stdout.write(json.dumps({"tag":"ok","text":data["text"].upper()}, separators=(",", ":")) + "\n")
-sys.stderr.write("ready\n")`
+        `import json,sys; line=sys.stdin.readline(); data=json.loads(line); sys.stdout.write(json.dumps({"tag":"ok","text":data["text"].upper()}, separators=(",", ":")) + "\n"); sys.stderr.write("ready\n")`
     ];
 
     try child = ipc.spawn(program, args);
