@@ -134,11 +134,16 @@ The current slice is intentionally:
 ### Small example
 
 ```cneg
+import std.env as env;
 import std.ipc as ipc;
 import std.process as process;
 import std.strings as strings;
 
 fn:result str python_program() {
+    if env.has("CNEG_SMOKE_PYTHON") {
+        return env.get("CNEG_SMOKE_PYTHON");
+    }
+
     let platform:str = process.platform();
     if strings.eq(platform, "windows") {
         free platform;
@@ -152,11 +157,11 @@ fn:result int run() {
     try program = python_program();
     let args:str[2] = [
         "-c",
-        `import json,sys; line=sys.stdin.readline(); data=json.loads(line); sys.stdout.write(json.dumps({"tag":"ok","text":data["text"].upper()}, separators=(",", ":")) + "\n"); sys.stderr.write("ready\n")`
+        `import sys; line=sys.stdin.readline(); sys.stdout.write(line.upper()); sys.stderr.write(line)`
     ];
 
     try child = ipc.spawn(program, args);
-    try out = ipc.request_line(child, `{"text":"hello"}`, 256);
+    try out = ipc.request_line(child, "hello", 256);
     if ipc.stdin_close(child).ok == false {
         free out;
         ipc.release(child);
