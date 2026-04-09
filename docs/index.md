@@ -7,7 +7,7 @@ A minimal, hackable systems language for learning explicit low-level programming
 It keeps the surface small, makes rules visible, and avoids hidden behavior where possible.
 
 ::: info current status
-This is **v0.4.2**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
+This is **v0.4.2-p**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
 :::
 
 ## Who this is for
