@@ -1,10 +1,10 @@
 # cnegative
 
-A minimal, hackable systems language for learning explicit low-level programming.
+A hackable systems language built for explicit low-level control and clear semantics.
 
-`cnegative` is meant for people who want to understand how low-level programs work without jumping straight into the full weight of C or C++ on day one.
+`cnegative` is meant for people who want direct control, visible rules, and a compiler they can inspect without inheriting the full historical weight of C on day one.
 
-It keeps the surface small, makes rules visible, and avoids hidden behavior where possible.
+It keeps behavior explicit, makes rules visible, and avoids hidden surprises where possible.
 
 ::: info current status
 This is **v0.4.3**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
