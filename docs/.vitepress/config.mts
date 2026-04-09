@@ -79,12 +79,13 @@ export default defineConfig({
         items: [
           { text: 'Error Codes', link: '/reference/errors' },
           { text: 'Project Rules', link: '/reference/rules' },
+          { text: 'Patches', link: '/reference/patches' },
           { text: 'Roadmap', link: '/roadmap' }
         ]
       }
     ],
     footer: {
-      message: 'cnegative docs track the current v0.4.1 compiler surface.',
+      message: 'cnegative docs track the current v0.4.2-p compiler surface.',
       copyright: 'Apache-2.0'
     },
     socialLinks: [
