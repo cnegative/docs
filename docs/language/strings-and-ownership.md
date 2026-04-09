@@ -126,6 +126,12 @@ Right now, owned runtime strings come from:
 - do not `free` it
 - it stops being safe to keep after `set`, `remove`, `clear`, or `release`
 
+`slice T` values are different too:
+
+- a slice is only a view
+- it does not own memory
+- `free some_slice;` is rejected with `E3037`
+
 ::: tip you do not need to memorize the full list
 The practical beginner rule is enough:
 if the runtime created a new string for you, free it when you are done.

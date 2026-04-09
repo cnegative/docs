@@ -51,6 +51,28 @@
 | E3032 | `deref` requires a pointer value |
 | E3033 | `try` used outside a `result ...` function |
 | E3034 | `try` initializer is not a `result ...` value |
+| E3035 | `addr` cannot target an immutable binding |
+| E3036 | `addr` cannot target a module constant |
+| E3037 | `free` cannot release a `slice` value |
+| E3038 | `free` cannot release a `result` wrapper directly |
+
+## Runtime memory errors (R4xxx)
+
+| Code | Description |
+| --- | --- |
+| R4001 | Allocation failed |
+| R4002 | `realloc` used on an unmanaged pointer |
+| R4003 | `free` used on an unmanaged pointer |
+| R4004 | Memory leak summary reported at shutdown |
+| R4005 | Leaked allocation detail reported at shutdown |
+| R4006 | Allocation size overflow |
+| R4008 | `realloc` failed and preserved the original pointer |
+| R4009 | `realloc` size overflow |
+| R4010 | Double free detected |
+| R4011 | `free` used on an interior pointer instead of the allocation start |
+| R4013 | Use-after-free detected within the quarantine window |
+| R4016 | Buffer overflow detected by allocator guard checks |
+| R4017 | Buffer underflow detected by allocator guard checks |
 
 ## Diagnostic style
 

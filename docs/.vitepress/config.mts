@@ -85,7 +85,7 @@ export default defineConfig({
       }
     ],
     footer: {
-      message: 'cnegative docs track the current v0.4.2-p compiler surface.',
+      message: 'cnegative docs track the current v0.4.3 compiler surface.',
       copyright: 'Apache-2.0'
     },
     socialLinks: [

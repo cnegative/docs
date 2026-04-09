@@ -123,6 +123,12 @@ Get its address:
 let p:ptr int = addr value;
 ```
 
+Important current rule:
+
+- `addr` is for real mutable storage
+- `addr` on an immutable `let` binding fails with `E3035`
+- `addr` on a module constant fails with `E3036`
+
 Read or write through the pointer:
 
 ```cneg
@@ -169,6 +175,17 @@ Use raw `free` for:
 - heap pointers from `alloc`
 - owned strings returned by the runtime
 
+Do not use raw `free` for:
+
+- `slice T` values
+- `result T` wrappers
+- stdlib-owned buffer or builder objects
+
+Those now get clearer diagnostics:
+
+- `E3037`: `free` cannot release a `slice` value
+- `E3038`: `free` cannot release a `result` wrapper directly
+
 Use module `release(...)` functions for:
 
 - stdlib-owned buffer or builder objects
@@ -182,6 +199,24 @@ If you are unsure:
 - only use pointers when you actually need explicit memory access
 
 That will keep your first programs much easier to reason about.
+
+## Runtime memory codes
+
+The tracked allocator now uses dedicated runtime memory codes too:
+
+- `R4001`: allocation failed
+- `R4002`: `realloc` on unmanaged pointer
+- `R4003`: `free` on unmanaged pointer
+- `R4004`: leak summary at shutdown
+- `R4005`: individual leaked allocation detail
+- `R4006`: allocation size overflow
+- `R4008`: `realloc` failed and preserved the original pointer
+- `R4009`: `realloc` size overflow
+- `R4010`: double free detected
+- `R4011`: `free` on an interior pointer instead of the allocation start
+- `R4013`: use-after-free detected inside the allocator quarantine window
+- `R4016`: buffer overflow detected by allocator guard checks
+- `R4017`: buffer underflow detected by allocator guard checks
 
 ## Small combined example
 
