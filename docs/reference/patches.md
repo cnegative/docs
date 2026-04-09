@@ -3,6 +3,16 @@
 Patch releases track focused fixes and improvements on top of the last tagged
 version.
 
+## v0.4.4
+
+- reworked module loading around a clear search order: builtin `std.*`, project
+  root, `vendor/`, then legacy relative fallback
+- gave user modules canonical names from root-relative paths instead of plain
+  basenames
+- improved `E3017` so missing-import diagnostics now show searched paths and
+  canonical-name conflicts directly
+- added regression fixtures and smoke coverage for the new module rules
+
 ## v0.4.3
 
 - added compile-time memory diagnostics for invalid `addr` and `free` misuse:
@@ -27,6 +37,6 @@ version.
 
 ## Notes
 
-- Current tracked release: `v0.4.3`
-- Previous patch release: `v0.4.2-p`
+- Current tracked release: `v0.4.4`
+- Previous tracked release: `v0.4.3`
 - Main repo patch log: `patches.md`

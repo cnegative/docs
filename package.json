@@ -1,6 +1,6 @@
 {
   "name": "cnegative-docs",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Documentation for the cnegative systems language.",
   "scripts": {
     "docs:dev": "vitepress dev docs",

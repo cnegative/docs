@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   base: '/docs/',
   title: "cnegative",
-  description: "A minimal, hackable systems language for learning explicit low-level programming.",
+  description: "A hackable systems language built for explicit low-level control and clear semantics.",
   appearance: 'dark',
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
@@ -85,7 +85,7 @@ export default defineConfig({
       }
     ],
     footer: {
-      message: 'cnegative docs track the current v0.4.3 compiler surface.',
+      message: 'cnegative docs track the current v0.4.4 compiler surface.',
       copyright: 'Apache-2.0'
     },
     socialLinks: [

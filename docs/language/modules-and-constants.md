@@ -23,6 +23,27 @@ fn:int main() {
 
 Only public declarations are visible from another module.
 
+Current import resolution order is:
+
+1. builtin `std.*` modules
+2. the project root, which is the directory containing the entry file
+3. `vendor/` under that project root
+4. a legacy fallback relative to the importing file's directory
+
+That means if you run:
+
+```cneg
+// src/main.cneg
+import app.logic as logic;
+```
+
+then `app.logic` resolves to `src/app/logic.cneg`. If you import
+`vendorlib.echo`, the loader next checks `src/vendor/vendorlib/echo.cneg`.
+
+Canonical module names come from those root-relative paths, not just the file
+basename. So `feature/helper.cneg` and `shared/helper.cneg` stay distinct as
+`feature.helper` and `shared.helper`.
+
 Current public forms are:
 
 - `pfn` for functions
