@@ -43,7 +43,7 @@ fn:int main() {
     let r:result int = divide(10, 2);
 
     if r.ok {
-        print(r.value);
+        println(r.value);
     }
 
     return 0;
@@ -71,7 +71,7 @@ fn:int main() {
         return 1;
     }
 
-    print(r.value);
+    println(r.value);
     return 0;
 }
 ```
@@ -80,6 +80,8 @@ The compiler now understands both:
 
 - `if r.ok { ... }`
 - `if r.ok == false { return err; }` or `return 1;` style checks before later `.value`
+- guarded `if` expressions like `if r.ok { r.value[0] } else { 0 }`
+- guarded loops like `while r.ok { return r.value[0]; }`
 
 ### `try` for unwrap-or-return
 
@@ -97,6 +99,15 @@ Simple meaning:
 - call something that returns `result T`
 - if it failed, return `err`
 - if it worked, keep the inner `T` as a normal local binding
+
+`main` can now use this too because `main` may return `result int` or `result u8`:
+
+```cneg
+fn:result int main() {
+    try value = divide(20, 5);
+    return ok value;
+}
+```
 
 ### Beginner mental model
 
@@ -160,6 +171,46 @@ This is the basic rule:
 If you allocate heap memory yourself, you are responsible for freeing it.
 :::
 
+## Zone allocation
+
+`zone` is the temporary-memory form:
+
+```cneg
+fn:int main() {
+    let mut total:int = 0;
+
+    zone {
+        let value:ptr int = zalloc int;
+        deref value = 7;
+        total = deref value;
+    }
+
+    return total;
+}
+```
+
+Simple meaning:
+
+- `zone { ... }` creates a temporary allocation scope
+- `zalloc T` allocates inside that scope
+- everything allocated with `zalloc` is released automatically when the zone ends
+
+This is different from heap allocation:
+
+- `alloc` is normal heap memory and still needs `free`
+- `zalloc` is temporary zone memory and must not be freed manually
+
+Current checked zone rules:
+
+- `zalloc` outside a `zone` reports `E3041`
+- returning a zone-owned value reports `E3042`
+- `free` on zone memory reports `E3043`
+- assigning a zone-owned value into outer storage reports `E3044`
+- passing a zone-owned value into an ordinary function parameter reports `E3045`
+
+This feature is meant to stay explicit and simple.
+It is not hidden lifetime inference.
+
 ## One small stdlib note
 
 Not every heap-backed thing is released with raw `free`.
@@ -179,12 +230,14 @@ Do not use raw `free` for:
 
 - `slice T` values
 - `result T` wrappers
+- zone-owned pointers from `zalloc`
 - stdlib-owned buffer or builder objects
 
 Those now get clearer diagnostics:
 
 - `E3037`: `free` cannot release a `slice` value
 - `E3038`: `free` cannot release a `result` wrapper directly
+- `E3043`: `free` cannot release zone-owned memory
 
 Use module `release(...)` functions for:
 
@@ -197,6 +250,7 @@ If you are unsure:
 - use ordinary values first
 - use `result` whenever failure is possible
 - only use pointers when you actually need explicit memory access
+- use `zone` only for clearly temporary pointer data
 
 That will keep your first programs much easier to reason about.
 

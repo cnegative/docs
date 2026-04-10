@@ -62,6 +62,18 @@ Read that as:
 - `int[3]` means “array of three `int` values”
 - `[1, 2, 3]` is the array literal
 
+The size can also come from a constant expression:
+
+```cneg
+const COUNT:int = 4;
+let xs:int[COUNT] = [7; COUNT];
+```
+
+That example shows two newer array rules:
+
+- type sizes can use non-negative integer constants
+- `[7; COUNT]` repeats one value across the full array
+
 Read by index:
 
 ```cneg
@@ -74,6 +86,17 @@ Write by index:
 let mut xs:int[3] = [1, 2, 3];
 xs[1] = 10;
 ```
+
+If the element type itself is a prefix type, the prefix binds before the array suffix:
+
+```cneg
+let ptrs:ptr int[4] = [null; 4];
+```
+
+Read that as:
+
+- `ptr int[4]` means “array of four `ptr int` values”
+- not “pointer to one array of four `int` values”
 
 ## Slices
 
@@ -190,6 +213,7 @@ Only indexable values can use `[index]`.
 - struct field names must exist
 - struct field values must match the field type
 - array literal size must match the declared length
+- repeat counts in `[value; N]` must be non-negative integer constants
 - indexing only works on arrays and slices
 - slice field access is currently limited to `.length`
 

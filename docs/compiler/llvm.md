@@ -21,7 +21,7 @@ cnegc build   examples/valid_basic.cneg
 - Module-level constants after typed IR folding.
 - Struct literals, array literals, field access, indexing.
 - `alloc`, `addr`, `deref`, `free`, `ok`, `err`, guarded `.value`.
-- `print(...)`, `input()`, `str_copy(...)`, `str_concat(...)`, and string equality via embedded runtime helpers.
+- `print(...)`, `println(...)`, `input()`, `str_copy(...)`, `str_concat(...)`, and string equality via embedded runtime helpers.
 - `std.math`, `std.bytes`, `std.ipc`, `std.lines`, `std.strings`, `std.text`, `std.parse`, `std.fs`, `std.io`, `std.term`, `std.time`, `std.env`, `std.path`, `std.net`, `std.process`, and the experimental Linux-only `std.x11` through embedded runtime helpers.
 - Host-native target triple — not hardcoded to Linux.
 

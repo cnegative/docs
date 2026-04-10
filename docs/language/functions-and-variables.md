@@ -47,9 +47,19 @@ Also valid:
 
 ```cneg
 fn:void log_value(x:int) {
-    print(x);
+    println(x);
 }
 ```
+
+`main` also has a wider current boundary than ordinary functions:
+
+- `fn:int main()`
+- `fn:u8 main()`
+- `fn:result int main()`
+- `fn:result u8 main()`
+- `fn:void main()`
+
+That matters because `fn:result int main()` lets you use `try` at the top level and return `err` as process exit code `1`.
 
 ::: tip why this rule exists
 `cnegative` does not use implicit tail returns for non-void functions. That makes control flow easier to audit in longer code.
@@ -126,7 +136,7 @@ Simple statements end with `;`.
 
 ```cneg
 let x:int = 10;
-print(x);
+println(x);
 ```
 
 ## Next step

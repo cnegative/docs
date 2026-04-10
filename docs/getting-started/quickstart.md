@@ -20,7 +20,7 @@ fn:int add(a:int, b:int) {
 
 fn:int main() {
     let result:int = add(2, 3);
-    print(result);
+    println(result);
     return 0;
 }
 ```
@@ -30,7 +30,7 @@ What each part means:
 - `fn:int add(...)` declares a function returning `int`
 - `a:int` means parameter `a` has type `int`
 - `let result:int = ...;` creates a local value
-- `print(result);` prints the value
+- `println(result);` prints the value and appends a newline
 - `return 0;` ends `main`
 
 ## Step 1: check the file
@@ -77,7 +77,7 @@ This is invalid:
 
 ```cneg
 fn:int main() {
-    print(1);
+    println(1);
 }
 ```
 
@@ -85,7 +85,7 @@ This is valid:
 
 ```cneg
 fn:int main() {
-    print(1);
+    println(1);
     return 0;
 }
 ```
@@ -97,7 +97,7 @@ This is invalid:
 ```cneg
 let x:int = 3;
 if x {
-    print(x);
+    println(x);
 }
 ```
 
@@ -106,7 +106,7 @@ This is valid:
 ```cneg
 let x:int = 3;
 if x > 0 {
-    print(x);
+    println(x);
 }
 ```
 
@@ -129,14 +129,14 @@ To read `.value`, first prove the result is ok:
 fn:int main() {
     let r:result int = divide(10, 2);
     if r.ok {
-        print(r.value);
+        println(r.value);
     }
     return 0;
 }
 ```
 
 ::: warning `.value` is guarded on purpose
-Using `r.value` without a preceding `if r.ok` check reports `E3024`.
+Using `r.value` without a preceding proof like `if r.ok { ... }` reports `E3024`.
 :::
 
 ## Strings in one sentence
@@ -147,7 +147,7 @@ Some strings are runtime-owned and should be freed when you are done with them.
 fn:int main() {
     let copied:str = str_copy("hello");
     let joined:str = str_concat(copied, " world");
-    print(joined);
+    println(joined);
     free copied;
     free joined;
     return 0;

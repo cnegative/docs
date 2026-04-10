@@ -18,6 +18,7 @@ Current API:
 - `strings.len(str) -> int`
 - `strings.copy(str) -> str`
 - `strings.concat(str, str) -> str`
+- `strings.from_int(int) -> str`
 - `strings.eq(str, str) -> bool`
 - `strings.starts_with(str, str) -> bool`
 - `strings.ends_with(str, str) -> bool`
@@ -29,16 +30,20 @@ import std.strings as strings;
 
 fn:int main() {
     let left:str = strings.copy("hello");
+    let number:str = strings.from_int(42);
     let joined:str = strings.concat(left, " world");
 
     if strings.starts_with(joined, "hello") == false {
         free left;
+        free number;
         free joined;
         return 1;
     }
 
+    print(number);
     print(joined);
     free left;
+    free number;
     free joined;
     return 0;
 }
@@ -47,11 +52,12 @@ fn:int main() {
 What to notice:
 
 - `strings.copy(...)` creates an owned string
+- `strings.from_int(...)` also creates an owned string
 - `strings.concat(...)` creates another owned string
-- both should be freed
+- all three should be freed
 
 ::: warning ownership
-`strings.copy(...)` and `strings.concat(...)` return owned strings. Free them when you are done.
+`strings.copy(...)`, `strings.concat(...)`, and `strings.from_int(...)` return owned strings. Free them when you are done.
 :::
 
 ## `std.parse`

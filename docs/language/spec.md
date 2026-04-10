@@ -60,9 +60,12 @@ That order is intentional. It moves from “ordinary code” into “systems cod
 - `fn`, `pfn`, `struct`, `pstruct`, `const`, and `pconst`
 - `int`, `u8`, `bool`, `str`, `void`, `ptr T`, `result T`, and `slice T`
 - `byte` as a readable alias for `u8`
+- source-level `null` for pointer values
 - `if`, `while`, `loop`, range `for`, narrow `if` expressions, `defer`, and `try`
-- arrays, slices, structs, indexing, field access, and qualified module access
-- `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
+- `zone { ... }` plus explicit `zalloc T` for temporary scoped allocations
+- arrays with constant sizes, `[value; N]` repeat literals, slices, structs, indexing, field access, and qualified module access
+- `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `println`, `input`, `str_copy`, and `str_concat`
+- `main` returning `int`, `u8`, `result int`, `result u8`, or `void`
 - raw backtick strings for multiline text without escape processing
 - builtin stdlib modules for math, growable bytes/lines/text storage, text-first child-process IPC, strings, parsing, files, IO, low-level terminal control, environment, paths, time, blocking IPv4 TCP/UDP, process helpers, and an experimental Linux-only `std.x11` window path
 

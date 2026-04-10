@@ -88,6 +88,7 @@ Current API:
 - `text.length(ptr text.Builder) -> int`
 - `text.capacity(ptr text.Builder) -> int`
 - `text.append(ptr text.Builder, str) -> result bool`
+- `text.append_int(ptr text.Builder, int) -> result bool`
 - `text.push_byte(ptr text.Builder, u8) -> result bool`
 - `text.build(ptr text.Builder) -> result str`
 - `text.view(ptr text.Builder) -> slice u8`
@@ -113,6 +114,10 @@ fn:result int run() {
     try builder = text.new();
 
     if text.append(builder, "hello").ok == false {
+        text.release(builder);
+        return err;
+    }
+    if text.append_int(builder, 42).ok == false {
         text.release(builder);
         return err;
     }

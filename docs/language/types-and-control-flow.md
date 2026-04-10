@@ -28,7 +28,7 @@ Valid:
 
 ```cneg
 if x > 5 {
-    print(x);
+    println(x);
 }
 ```
 
@@ -36,7 +36,7 @@ Invalid:
 
 ```cneg
 if x {
-    print(x);
+    println(x);
 }
 ```
 
@@ -54,9 +54,9 @@ If a condition is not `bool`, the compiler reports `E3005`.
 
 ```cneg
 if x > 5 {
-    print(x);
+    println(x);
 } else {
-    print(0);
+    println(0);
 }
 ```
 
@@ -96,7 +96,7 @@ Use this for simple counted loops.
 
 ```cneg
 for i:int in 0..10 {
-    print(i);
+    println(i);
 }
 ```
 
@@ -119,6 +119,11 @@ loop {
 - fitting integer literals also compare cleanly against `u8` and `byte` values
 - arithmetic still stays `int`-only for now
 
+## Output rule today
+
+- `print(...)` writes without an implicit newline
+- `println(...)` writes the value and appends a newline
+
 ## A small example with both `int` and `byte`
 
 ```cneg
@@ -127,7 +132,7 @@ fn:int main() {
     let b:byte = 0;
 
     if x % 2 == 1 {
-        print(x);
+        println(x);
     }
 
     if b == 0 {

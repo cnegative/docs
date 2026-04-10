@@ -100,6 +100,7 @@ Right now, owned runtime strings come from:
 - `std.io.read_line()`
 - `std.strings.copy(s)`
 - `std.strings.concat(a, b)`
+- `std.strings.from_int(n)`
 - `std.text.build(builder)` on success
 - `std.fs.read_text(path)` on success
 - `std.fs.cwd()` on success
@@ -148,6 +149,7 @@ That does not mean you should rely on it as a style. It just means the runtime w
 - literals like `"hello"` are easy
 - copied/concatenated/read/input strings are usually owned
 - owned strings should be freed
+- this stays manual on purpose; `cnegative` is not trying to infer string ownership for you
 
 ::: warning current boundary
 This is still a deliberately small ownership model, not a giant string runtime with many hidden rules.

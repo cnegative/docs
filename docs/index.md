@@ -7,7 +7,7 @@ A hackable systems language built for explicit low-level control and clear seman
 It keeps behavior explicit, makes rules visible, and avoids hidden surprises where possible.
 
 ::: info current status
-This is **v0.4.4**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
+This is **v0.5.0**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
 :::
 
 ## Who this is for
@@ -73,7 +73,7 @@ fn:int main() {
     let a:int = 2;
     let b:int = 3;
     let sum:int = a + b;
-    print(sum);
+    println(sum);
     return 0;
 }
 ```
@@ -83,7 +83,7 @@ What is happening here:
 - `fn:int main()` says `main` returns an `int`
 - `let` creates named values
 - types are written explicitly
-- `print(sum);` prints the value
+- `println(sum);` prints the value and appends a newline
 - `return 0;` ends the program successfully
 
 ## Core rules at a glance
@@ -103,11 +103,13 @@ What is happening here:
 - `fn`, `pfn`, `struct`, `pstruct`, `const`, and `pconst`
 - `int`, `u8`, `bool`, `str`, `void`, `ptr T`, `result T`, and `slice T`
 - `byte` as a readable alias for `u8`
-- `if`, `while`, `loop`, range `for`, and narrow `if` expressions
+- source-level `null` for pointer values
+- `if`, `while`, `loop`, range `for`, narrow `if` expressions, `defer`, and `try`
 - arrays, structs, indexing, and field access
 - imports, qualified calls, qualified types, and qualified public constants
-- `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `input`, `str_copy`, and `str_concat`
+- `alloc`, `addr`, `deref`, `free`, `ok`, `err`, `print`, `println`, `input`, `str_copy`, and `str_concat`
 - stdlib modules for math, bytes, IPC, lines, strings, parsing, files, IO, terminal control, env, paths, time, networking, process helpers, and the experimental Linux-only `std.x11`
+- `main` may return `int`, `u8`, `result int`, `result u8`, or `void`
 - typed IR, LLVM IR, object generation, and linked binaries
 
 ## Platform support
