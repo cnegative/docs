@@ -82,6 +82,7 @@ The compiler now understands both:
 - `if r.ok == false { return err; }` or `return 1;` style checks before later `.value`
 - immutable bool aliases like `let ready:bool = r.ok; if ready { ... }`
 - simple composed guards like `if r.ok && cond { ... }` and `if blocked || cond { return err; }`
+- reassigning `r = ok value;` makes `r.value` usable again, while reassigning a mutable result clears earlier proofs
 - guarded `if` expressions like `if r.ok { r.value[0] } else { 0 }`
 - guarded loops like `while r.ok { return r.value[0]; }`
 
