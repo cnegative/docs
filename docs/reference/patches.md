@@ -3,6 +3,15 @@
 Patch releases track focused fixes and improvements on top of the last tagged
 version.
 
+## v0.5.1
+
+- made `result` a contextual keyword in type positions so it can be reused as a
+  normal identifier or import alias elsewhere
+- added targeted parse diagnostics for missing inner types after `result`,
+  `ptr`, and `slice` prefixes
+- expanded the `.value` proof system to understand immutable bool aliases of
+  `.ok` and simple `&&` / `||` branch-proof patterns
+
 ## v0.5.0
 
 - added source-level `null` and pointer equality against `null`
@@ -55,6 +64,6 @@ version.
 
 ## Notes
 
-- Current tracked release: `v0.5.0`
-- Previous tracked release: `v0.4.4`
+- Current tracked release: `v0.5.1`
+- Previous tracked release: `v0.5.0`
 - Main repo patch log: `patches.md`

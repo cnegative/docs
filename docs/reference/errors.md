@@ -12,6 +12,8 @@
 | E1004 | Invalid character during lexing |
 | E1005 | Unterminated string literal |
 | E1006 | Invalid assignment target in statement syntax |
+| E1007 | `result` type prefix is missing its inner type |
+| E1008 | `ptr` or `slice` type prefix is missing its inner type |
 
 ## Semantic errors (E3xxx)
 

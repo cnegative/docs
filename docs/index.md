@@ -7,7 +7,7 @@ A hackable systems language built for explicit low-level control and clear seman
 It keeps behavior explicit, makes rules visible, and avoids hidden surprises where possible.
 
 ::: info current status
-This is **v0.5.0**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
+This is **v0.5.1**. The language and compiler are under active development, but the current surface is already large enough for real small tools and learning projects.
 :::
 
 ## Who this is for
